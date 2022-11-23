@@ -1,0 +1,53 @@
+div{
+    border: solid black 5px;
+    padding: 1em;
+    background-color:grey;
+    opacity:0.80;
+    grid-column: 0;
+}
+
+li{
+    background-color: rgba(231, 231, 23, 0.56);
+    grid-column: 1;
+    text-align: center;
+}
+
+li:hover{
+    background-color: rgba(255, 0, 0, 0.56);
+}
+
+@media (max-width: 700px){
+    #feedback{
+        width: 50%;
+    }
+    #menu{
+        width:  50%;
+    }
+    #menu ul{
+        display :grid;
+        grid-template-columns: 1fr;
+
+    }
+
+    #accueil{
+        grid-column: 0;
+    }
+
+    #listeFromage{
+        grid-column: 0;
+    }
+
+    #aPropos{
+        grid-column: 0;
+    }
+    #content{
+        width: 50%;
+    }
+    body{
+        padding: 0.5em;
+    }
+    li{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,51 @@
+<?php
+
+class AuthenticationManager {
+
+    protected $accountsTab;
+
+    public function __construct($accountsTab) {
+        $this->accountsTab = $accountsTab;
+    }
+
+    // Connecte l'utilisateur en mettant le compte dans la session.
+    public function connectUser($login, $password) {
+        $account = $this->accountsTab->checkAuth($login, $password);
+        if($account != null) {
+            $_SESSION['user'] = $account;
+        }
+    }
+
+    // Fonction qui retourne true si l'utilisateur est connecté.
+    public function isUserConnected() {
+        if(key_exists('user', $_SESSION)) {
+            return true;
+        }
+        return false;
+    }
+
+    // Fonction qui retourne true si un admin est connecté.
+    public function isAdminConnected() {
+        if(key_exists('user', $_SESSION)) {
+            if($_SESSION['user']->getStatus() == 'admin') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Fonction qui retourne le nom de l'utilisateur connecté.
+    public function getUserName() {
+        return $_SESSION['user']->getName();
+    }
+
+    // Fonction qui déconnecte l'utilisateur.
+    public function disconnectUser() {
+        unset($_SESSION['user']);
+    }
+
+    // Fonction qui inscrit un utilisateur.
+    public function registration($name, $login, $password) {
+        return $this->accountsTab->registration($name, $login, $password);
+    }
+}
