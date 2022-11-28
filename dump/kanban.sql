@@ -15,6 +15,7 @@ CREATE TABLE kanban (
   nameKanban varchar(255) NOT NULL,
   descKanban varchar(255) DEFAULT NULL,
   creator varchar(255) NOT NULL,
+  public int(1) default 1, -- 0 is public, anything else is private
   constraint pkkanban primary key (idKanban),
   constraint fkkanbancreatoraccount foreign key (creator) references accounts (login) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
