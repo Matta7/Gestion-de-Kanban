@@ -21,7 +21,8 @@ CREATE TABLE `accounts` (
   `name` varchar(255) NOT NULL,
   `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` varchar(255) DEFAULT 'user'
+  `status` varchar(255) DEFAULT 'user',
+  constraint pkaccounts primary key (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
