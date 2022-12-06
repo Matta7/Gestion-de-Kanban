@@ -63,15 +63,27 @@ class CheeseStorageMySQL implements CheeseStorage {
 
     // Permet de récupérer la liste de tous les objets.
     public function readAll() {
-        /*$requete = "SELECT * FROM cheese";
+        $requete = "SELECT * FROM kanban";
         $resultatRequete = $this->db->query($requete)->fetchAll();
 
         $tabRes = array();
         foreach($resultatRequete as $key => $value) {
-            $a = new Cheese($value['name'], $value['region'], $value['year'], $value['creator']);
-            $tabRes[$value['id']] = $a;
+            // On prend aussi les membres
+            $requete = "SELECT * FROM membres WHERE idKanban = :id";
+            $stmt = this->db->prepare($requete);
+            $data = array(':id' => $value['idKanban']);
+            $stmt->execute($data);
+
+            $resultatRequeteM = $stmt->fetchAll();
+            $membres = null;
+            $i = 0;
+            foreach($resultatRequeteM as $key => $value){
+                $membres[$i] = $value['login'];
+                $i++;
+            }
+            $tabRes[$value['idKanban']] = new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequete['creator'], $membres);
         }
-        return $tabRes;*/
+        return $tabRes;
     }
 
     // Permet de créer un nouvel objet.
