@@ -11,7 +11,7 @@
 DROP TABLE IF EXISTS `taches`;
 
 CREATE TABLE taches (
-  idTache int(11) NOT NULL,
+  idTache int(11) NOT NULL AUTO_INCREMENT,
   idCol int(11) NOT NULL,
   descTache varchar(255) NOT NULL,
   affectation varchar(255), -- The user who is in charge of this task

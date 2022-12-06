@@ -11,7 +11,7 @@
 DROP TABLE IF EXISTS `colonnes`;
 
 CREATE TABLE colonnes (
-  idCol int(11) NOT NULL,
+  idCol int(11) NOT NULL AUTO_INCREMENT,
   nameCol varchar(255) NOT NULL,
   orderCol int(2) NOT NULL, -- The order in which the columns will be displayed
   kanban int(11) NOT NULL,
