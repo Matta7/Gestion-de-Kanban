@@ -16,6 +16,7 @@ class Task {
     private $dateLimite; 
 
     public function __construct($desc, $affectation = null, $dateLimite = null) {
+        $this->id = 0;
         $this->desc = $desc;
         $this->affectation = $affectation;
         $this->dateLimite = $dateLimite;

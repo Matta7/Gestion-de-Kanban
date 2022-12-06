@@ -60,14 +60,14 @@ class View {
     public function makeKanbanPage($kanban, $id = null) {
         $this->title = $kanban->getName();
         $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
-
+        //var_dump($kanban);
         foreach($kanban->getColumns as $c) {
             $this->content .= $c->getName();
             foreach($c->getTasks() as $t) {
                 $this->content .= $t->getDesc();
             }
         }
-        
+
         $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanUpdateURL($id) . "';\">Modifier</button>\n";
         $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAskDeletionURL($id) . "';\">Supprimer</button>\n";
         //$this->content .= "<a href='" .  ."'> Modifier </a>\n";
@@ -79,7 +79,7 @@ class View {
 
     // Page affichant la liste, avec par défaut la page une.
     public function makeListPage($kanbanTab, $page = 1) {
-        $this->title = 'Liste des fromages';
+        $this->title = 'Liste des kanbans';
 
         $this->content = "<form action='" . $this->router->getKanbanResearchURL() . "' method='POST'>\n";
         if(key_exists('search', $_SESSION)) {

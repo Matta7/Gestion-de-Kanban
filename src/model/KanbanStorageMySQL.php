@@ -40,6 +40,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
         $resultatRequeteC = $stmt->fetchAll();
 
+        // Problème ici TODO REGLER CA
         $j = 0;
         foreach($resultatRequeteC as $key => $value){
             // Creation d'une colonne
@@ -51,7 +52,9 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
             $resultatRequeteT = $stmt->fetchAll();
             $i = 0;
             foreach($resultatRequeteT as $keyt => $valuet){
-                $tasks[$i] = new Task($valuet['descTache'], $valuet['affectation'], $dateLimite['dateLimite']);
+                var_dump($valuet);
+            $tasks[$i] = new Task($valuet['descTache']/*, $valuet['affectation'], $valuet['dateLimite']*/);
+                //var_dump($resultatRequeteT);
                 $i++;
             }
             $columns[$j] = new Column($value['idCol'],$value['nameCol'], $tasks);
