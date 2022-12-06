@@ -23,7 +23,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         
         //Search for members
         $requete = "SELECT * FROM membres WHERE idKanban = :id";
-        $stmt = this->db->prepare($requete);
+        $stmt = $this->db->prepare($requete);
         $stmt->execute($data);
 
         $resultatRequeteM = $stmt->fetchAll();
@@ -35,7 +35,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
         // Créations des colonnes
         $requete = "SELECT * FROM colonnes WHERE kanban = :id ORDER BY orderCol";
-        $stmt = this->db->prepare($requete);
+        $stmt = $this->db->prepare($requete);
         $stmt->execute($data);
 
         $resultatRequeteC = $stmt->fetchAll();
@@ -44,7 +44,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         foreach($resultatRequeteC as $key => $value){
             // Creation d'une colonne
             $requete = "SELECT * FROM taches WHERE idCol = :id";
-            $stmt = this->db->prepare($requete);
+            $stmt = $this->db->prepare($requete);
             $datacol = array(':id' => $value['idCol']);
             $stmt->execute($datacol);
 
@@ -70,7 +70,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         foreach($resultatRequete as $key => $value) {
             // On prend aussi les membres
             $requete = "SELECT * FROM membres WHERE idKanban = :id";
-            $stmt = this->db->prepare($requete);
+            $stmt = $this->db->prepare($requete);
             $data = array(':id' => $value['idKanban']);
             $stmt->execute($data);
 
