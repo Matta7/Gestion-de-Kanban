@@ -9,7 +9,15 @@ $public = 0 : Le kanban est public, sinon il est privé.
 $creator est le créateur du kanban.
 $members sont les membres du kanban.
 
+$columns : Liste de colonnes.
+$columns[i]['id'] : id de la colonne i.
+$columns[i]['name'] : nom de la colonne i.
+$columns[i]['tasks'] : liste de tâches de la colonne i.
+$columns[i]['tasks'][$id]['name'] : nom de la tâche d'id $id de la colonne i.
+$columns[i]['tasks'][$id]['id'] : id de la tâche d'id $id de la colonne i.
+$columns[i]['tasks'][$id]['affectation'] : compte affecté à la tâche d'id $id de la colonne i.
 
+...
 */
 
 class Kanban {
@@ -20,14 +28,16 @@ class Kanban {
     private $creator;
     private $image;
     private $members;
+    private $columns;
 
-    public function __construct($name, $desc, $public, $creator, $members=null, $image = null) {
+    public function __construct($name, $desc, $public, $creator, $members=null, $image = null, $columns=null) {
         $this->name = $name;
         $this->region = $desc;
         $this->public = $public;
         $this->creator = $creator;
         $this->image = $image;
         $this->members = $members;
+        $this->columns = $columns;
     }
 
     public function getName() {
@@ -55,5 +65,9 @@ class Kanban {
 
     public function getMembers() {
         return $this->members;
+    }
+
+    public function getColumns() {
+        return $this->columns;
     }
 }
