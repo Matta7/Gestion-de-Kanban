@@ -8,7 +8,7 @@ set_include_path("./src");
 
 /* Inclusion des classes utilisées dans ce fichier */
 require_once("Router.php");
-require_once("model/CheeseStorageMySQL.php");
+require_once("model/KanbanStorageMySQL.php");
 require_once("model/AccountStorageMySQL.php");
 
 /*
@@ -36,4 +36,4 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Initialisation du routeur et lancement du main (avec les tables créée en amont)
 $router = new Router();
-$router->main(new CheeseStorageMySQL($db), new AccountStorageMySQL($db));
+$router->main(new KanbanStorageMySQL($db), new AccountStorageMySQL($db));

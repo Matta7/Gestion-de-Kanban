@@ -1,6 +1,6 @@
 <?php
 
-interface CheeseStorage {
+interface KanbanStorage {
     public function read($id);
     public function readAll();
     public function create(Kanban $k);

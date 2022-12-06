@@ -6,18 +6,18 @@ require_once("control/Controller.php");
 
 class Router {
 
-    public function main($cheese, $accountTab) {
+    public function main($kanbanDTB, $accountDTB) {
 
-        // Démarre la session avec le nom cheeseID.
-        session_name("cheeseID");
+        // Démarre la session avec le nom kanbanID.
+        session_name("kanbanID");
         session_start();
 
         // Création de la vue et du controller (en fonction des tables de données)
         $view = $this->creationView();
-        $controller = new Controller($view, $cheese, $accountTab);
+        $controller = new Controller($view, $kanbanDTB, $accountDTB);
 
         // Tableau qui va gérer les permissions.
-        $accessTab = $this->creationAccessTab($cheese);
+        $accessTab = $this->creationAccessTab($kanbanDTB);
 
 
         // Affiche les informations d'une page.
@@ -55,12 +55,12 @@ class Router {
 
             // Page "Nouveau fromage".
             else if($_GET['action'] === 'nouveau' && in_array('nouveau', $accessTab)) {
-                $controller->newCheese();
+                $controller->newKanban();
             }
 
             // Validation du nouveau fromage.
             else if($_GET['action'] === 'sauverNouveau' && in_array('sauverNouveau', $accessTab)) {
-                $controller->saveNewCheese($_POST);
+                $controller->saveNewKanban($_POST);
             }
 
             // Page de connexion.
@@ -93,23 +93,23 @@ class Router {
 
                 // Validation de la supression d'un fromage.
                 if ($_GET['action'] === 'supprimerConfirmation'&& in_array('supprimerConfirmation', $accessTab)) {
-                    $controller->askCheeseDeletion($_GET['id']);
+                    $controller->askKanbanDeletion($_GET['id']);
                 }
 
                 // Page de suppression d'un fromage.
                 else if ($_GET['action'] === 'supprimer'&& in_array('supprimer', $accessTab)) {
-                    $controller->deleteCheese($_GET['id']);
+                    $controller->deleteKanban($_GET['id']);
                     $view->makeHomePage();
                 }
 
                 // Page de modification d'un fromage.
                 else if($_GET['action'] === 'modification'&& in_array('modification', $accessTab)) {
-                    $controller->updateCheese($_GET['id']);
+                    $controller->updateKanban($_GET['id']);
                 }
 
                 // Page de validation de la modification d'un fromage.
                 else if($_GET['action'] === 'sauverModification'&& in_array('sauverModification', $accessTab)) {
-                    $controller->updatedCheese($_POST,$_GET['id']);
+                    $controller->updatedKanban($_POST,$_GET['id']);
                 }
 
                 // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
@@ -158,7 +158,7 @@ class Router {
 
     // Fonction qui, en fonction de l'utilisateur connecté, va créer un tableau de ses permissions.
     // Cela fonctionne donc avec un système de liste blanche, on interdit de base tout à l'utilisateur et on lui rajoute des droits. 
-    public function creationAccessTab($cheese) {
+    public function creationAccessTab($kanbanDTB) {
 
         if(!key_exists('user',$_SESSION)) {
             return array('aPropos', 'connexion', 'authentification', 'inscription', 'inscrit');
@@ -171,7 +171,7 @@ class Router {
             else {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
-                    if ($_SESSION['user']->getName() === $cheese->read($_GET['id'])->getCreator()) {
+                    if ($_SESSION['user']->getName() === $kanbanDTB->read($_GET['id'])->getCreator()) {
                         $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation'));
                     }
                 }
@@ -188,42 +188,42 @@ class Router {
     }
 
     // Page d'un fromage.
-    public function getCheeseURL($id) {
+    public function getKanbanURL($id) {
         return "?id=$id";
     }
 
     // Page de création d'un objet.
-    public function getCheeseCreationURL() {
+    public function getKanbanCreationURL() {
         return 'index.php?action=nouveau';
     }
 
     // Page de validation de création d'un objet.
-    public function getCheeseSaveURL() {
+    public function getKanbanSaveURL() {
         return 'index.php?action=sauverNouveau';
     }
 
     // Page de validation de supression d'un fromage.
-    public function getCheeseAskDeletionURL($id) {
+    public function getKanbanAskDeletionURL($id) {
         return "index.php?action=supprimerConfirmation&id=$id";
     }
 
     // Page de supression d'un fromage.
-    public function getCheeseDeletionURL($id) {
+    public function getKanbanDeletionURL($id) {
         return "index.php?action=supprimer&id=$id";
     }
 
     // Page de modification d'un fromage.
-    public function getCheeseUpdateURL($id){
+    public function getKanbanUpdateURL($id){
         return "index.php?action=modification&id=$id";
     }
 
     // Page de validation de modification d'un fromage.
-    public function getCheeseUpdatedURL($id) {
+    public function getKanbanUpdatedURL($id) {
         return "index.php?action=sauverModification&id=$id";
     }
 
     // Page pour la fonction de recherche d'un objet.
-    public function getCheeseResearchURL() {
+    public function getKanbanResearchURL() {
         return "index.php?liste=rechercher";
     }
 

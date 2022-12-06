@@ -28,7 +28,7 @@ class KanbanBuilder {
             //'image' => ''
         );
 
-        $a = $this->createCheese();
+        $a = $this->createKanban();
 
         if ($a->getName() != "" && $a->getRegion() != "" && $a->getYear() > 0) {
             return true;
