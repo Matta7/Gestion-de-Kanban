@@ -23,7 +23,7 @@ class Kanban {
 
     public function __construct($name, $desc, $public, $creator, $members=null, $image = null, $columns=null) {
         $this->name = $name;
-        $this->region = $desc;
+        $this->desc = $desc;
         $this->public = $public;
         $this->creator = $creator;
         $this->image = $image;
