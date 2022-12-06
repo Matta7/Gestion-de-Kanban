@@ -86,19 +86,29 @@ class CheeseStorageMySQL implements CheeseStorage {
         return $tabRes;
     }
 
-    // Permet de créer un nouvel objet. 
-    public function create(Cheese $a) {
-        /*$requete = "INSERT INTO cheese (name, region, year, creator) VALUES (:name, :region, :year, :creator) ";
+    // Permet d'inserer le kanban données dans la base de données. 
+    public function create(Kanban $a) {
+        $requete = "INSERT INTO kanban(nameKanban, descKanban, creator, public) VALUES (:name, :desc, :creator, :public)";
         $stmt = $this->db->prepare($requete);
         $data = array(':name' => $a->getName(),
-            ':region' => $a->getRegion(),
-            ':year' => $a->getYear(),
-            ':creator' => $a->getCreator()
+            ':desc' => $a->getDesc(),
+            ':creator' => $a->getCreator(),
+            ':public' => (-1+($a->isPublic()))
         );
         $stmt->execute($data);
 
-        $requete = "SELECT MAX(id) FROM cheese";
-        return ($this->db->query($requete)->fetch())['MAX(id)'];*/
+        $requete = "SELECT MAX(idKanban) FROM kanban";
+        $resId = ($this->db->query($requete)->fetch())['MAX(idKanban)'];
+        
+        // On met les colonnes par défauts
+        $requete = "INSERT INTO colonnes(nameCol, orderCol, kanban) VALUES 
+            ('Stories', 0, :id), 
+            ('Terminées', 1, :id)";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':id' => $resId);
+        $stmt->execute($data);
+
+        return $resId;
     }
 
     // Permet de supprimer un objet de la liste.
