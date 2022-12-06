@@ -54,7 +54,7 @@ class CheeseStorageMySQL implements CheeseStorage {
                 $tasks[$i] = new Task($valuet['descTache'], $valuet['affectation'], $dateLimite['dateLimite']);
                 $i++;
             }
-            $columns[$j] = new Column($value['nameCol'], $tasks);
+            $columns[$j] = new Column($value['idCol'],$value['nameCol'], $tasks);
             $j++;
             $tasks = null;
         }
@@ -86,7 +86,7 @@ class CheeseStorageMySQL implements CheeseStorage {
         return $tabRes;
     }
 
-    // Permet de créer un nouvel objet.
+    // Permet de créer un nouvel objet. 
     public function create(Cheese $a) {
         /*$requete = "INSERT INTO cheese (name, region, year, creator) VALUES (:name, :region, :year, :creator) ";
         $stmt = $this->db->prepare($requete);
