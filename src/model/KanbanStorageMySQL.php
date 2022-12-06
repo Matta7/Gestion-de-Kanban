@@ -1,10 +1,10 @@
 <?php
 
-require_once('model/CheeseBuilder.php');
-require_once('model/Cheese.php');
-require_once('model/CheeseStorage.php');
+require_once('model/KanbanBuilder.php');
+require_once('model/Kanban.php');
+require_once('model/KanbanStorage.php');
 
-class CheeseStorageMySQL implements CheeseStorage {
+class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
     protected $db;
 

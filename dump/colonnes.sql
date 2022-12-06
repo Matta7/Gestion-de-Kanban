@@ -19,3 +19,10 @@ CREATE TABLE colonnes (
   constraint fkcolonneskanbankanban foreign key (kanban) references kanban (idKanban) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+INSERT INTO `colonnes` (`nameCol`, `orderCol`, `kanban`) VALUES
+('a', 0, 1),
+('b', 1, 1),
+('c', 2, 1),
+('d', 3, 1);
+COMMIT;
