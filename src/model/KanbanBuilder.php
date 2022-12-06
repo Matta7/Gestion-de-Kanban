@@ -1,6 +1,6 @@
 <?php
 
-class CheeseBuilder {
+class KanbanBuilder {
 
     protected $data;
     protected $error;
@@ -18,14 +18,14 @@ class CheeseBuilder {
         return $this->error;
     }
 
-    public function createCheese() {
+    public function createKanban() {
         return new Kanban(strip_tags($this->data['name']), strip_tags($this->data['desc']), $this->data['public'], $_SESSION['user']->getName());
     }
 
     public function isValid() {
         $this->error= array('name' => '',
-            'desc' => '',
-            'image' => ''
+            'desc' => ''//,
+            //'image' => ''
         );
 
         $a = $this->createCheese();
