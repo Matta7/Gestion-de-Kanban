@@ -53,12 +53,12 @@ class Router {
                 $controller->aPropos();
             }
 
-            // Page "Nouveau fromage".
+            // Page "Nouveau kanban".
             else if($_GET['action'] === 'nouveau' && in_array('nouveau', $accessTab)) {
                 $controller->newKanban();
             }
 
-            // Validation du nouveau fromage.
+            // Validation du nouveau kanban.
             else if($_GET['action'] === 'sauverNouveau' && in_array('sauverNouveau', $accessTab)) {
                 $controller->saveNewKanban($_POST);
             }
@@ -88,26 +88,26 @@ class Router {
                 $controller->disconnection();
             }
 
-            // Affiche en fonction de la liste des fromages d'autres actions possibles :
+            // Affiche en fonction de la liste des kanbans d'autres actions possibles :
             else if(key_exists('id', $_GET)) {
 
-                // Validation de la supression d'un fromage.
+                // Validation de la supression d'un kanban.
                 if ($_GET['action'] === 'supprimerConfirmation'&& in_array('supprimerConfirmation', $accessTab)) {
                     $controller->askKanbanDeletion($_GET['id']);
                 }
 
-                // Page de suppression d'un fromage.
+                // Page de suppression d'un kanban.
                 else if ($_GET['action'] === 'supprimer'&& in_array('supprimer', $accessTab)) {
                     $controller->deleteKanban($_GET['id']);
                     $view->makeHomePage();
                 }
 
-                // Page de modification d'un fromage.
+                // Page de modification d'un kanban.
                 else if($_GET['action'] === 'modification'&& in_array('modification', $accessTab)) {
                     $controller->updateKanban($_GET['id']);
                 }
 
-                // Page de validation de la modification d'un fromage.
+                // Page de validation de la modification d'un kanban.
                 else if($_GET['action'] === 'sauverModification'&& in_array('sauverModification', $accessTab)) {
                     $controller->updatedKanban($_POST,$_GET['id']);
                 }
@@ -187,7 +187,7 @@ class Router {
         return 'index.php';
     }
 
-    // Page d'un fromage.
+    // Page d'un kanban.
     public function getKanbanURL($id) {
         return "?id=$id";
     }
@@ -202,22 +202,22 @@ class Router {
         return 'index.php?action=sauverNouveau';
     }
 
-    // Page de validation de supression d'un fromage.
+    // Page de validation de supression d'un kanban.
     public function getKanbanAskDeletionURL($id) {
         return "index.php?action=supprimerConfirmation&id=$id";
     }
 
-    // Page de supression d'un fromage.
+    // Page de supression d'un kanban.
     public function getKanbanDeletionURL($id) {
         return "index.php?action=supprimer&id=$id";
     }
 
-    // Page de modification d'un fromage.
+    // Page de modification d'un kanban.
     public function getKanbanUpdateURL($id){
         return "index.php?action=modification&id=$id";
     }
 
-    // Page de validation de modification d'un fromage.
+    // Page de validation de modification d'un kanban.
     public function getKanbanUpdatedURL($id) {
         return "index.php?action=sauverModification&id=$id";
     }

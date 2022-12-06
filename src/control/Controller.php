@@ -15,10 +15,10 @@ class Controller {
     private $kanbanDTB;
     private $authenticationManager;
 
-    public function __construct($view, $kanbanDTB, $accountTab) {
+    public function __construct($view, $kanbanDTB, $accountDTB) {
         $this->view = $view;
         $this->kanbanDTB = $kanbanDTB;
-        $this->authenticationManager = new AuthenticationManager($accountTab);
+        $this->authenticationManager = new AuthenticationManager($accountDTB);
     }
 
     // Si l'action est "aPropos".
@@ -26,7 +26,7 @@ class Controller {
         $this->view->makeAProposPage();
     }
 
-    // Affiche l'information d'un kanban. Si le fromage indiqué n'existe pas, alors cela affiche une page d'erreur.
+    // Affiche l'information d'un kanban. Si le kanban indiqué n'existe pas, alors cela affiche une page d'erreur.
     public function showInformation($id) {
         if(!key_exists($id, $this->kanbanDTB->readAll())) {
             $this->view->makeUnknownKanbanPage();
@@ -61,7 +61,7 @@ class Controller {
     public function saveNewKanban(array $data) {
         $kanbanBuilder = new KanbanBuilder($data);
 
-        // Si le fromage entré par l'utilisateur est valide, alors on supprime la sauvegarde actuelle et on créer le fromage.
+        // Si le kanban entré par l'utilisateur est valide, alors on supprime la sauvegarde actuelle et on créer le kanban.
         if($kanbanBuilder->isValid()) {
             $error = false;
             unset($_SESSION['currentNewKanban']);
@@ -126,8 +126,8 @@ class Controller {
         }
     }
 
-    // Page de modification d'un fromage.
-    // Si l'on était déjà en train de modifié un fromage, cela est enregistré dans la session.
+    // Page de modification d'un kanban.
+    // Si l'on était déjà en train de modifié un kanban, cela est enregistré dans la session.
     public function updateKanban($id) {
         // Ouvre la page de modification avec les champs de la la session.
         if(key_exists('currentUpdateKanban', $_SESSION)) {
@@ -142,7 +142,7 @@ class Controller {
         }
     }
 
-    // Fonction qui envoie la modification. Ce sont les mêmes vérifications que la création d'un nouveau fromage.
+    // Fonction qui envoie la modification. Ce sont les mêmes vérifications que la création d'un nouveau kanban.
     public function updatedKanban(array $data, $id) {
         $kanbanBuilder = new KanbanBuilder($data);
         $image = null;

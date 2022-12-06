@@ -2,15 +2,15 @@
 
 class AuthenticationManager {
 
-    protected $accountsTab;
+    protected $accountDTB;
 
-    public function __construct($accountsTab) {
-        $this->accountsTab = $accountsTab;
+    public function __construct($accountDTB) {
+        $this->accountDTB = $accountDTB;
     }
 
     // Connecte l'utilisateur en mettant le compte dans la session.
     public function connectUser($login, $password) {
-        $account = $this->accountsTab->checkAuth($login, $password);
+        $account = $this->accountDTB->checkAuth($login, $password);
         if($account != null) {
             $_SESSION['user'] = $account;
         }
@@ -46,6 +46,6 @@ class AuthenticationManager {
 
     // Fonction qui inscrit un utilisateur.
     public function registration($name, $login, $password) {
-        return $this->accountsTab->registration($name, $login, $password);
+        return $this->accountDTB->registration($name, $login, $password);
     }
 }

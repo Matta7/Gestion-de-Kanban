@@ -19,10 +19,10 @@ class PrivateView extends View {
     }
 
     public function getMenu() {
-        $menu = "<nav>\n<ul>\n<li> <a href='fromages.php'>Page d'accueil</a></li>";
-        $menu .= "<li><a href='?liste'>Liste des fromages</a></li>\n";
+        $menu = "<nav>\n<ul>\n<li> <a href='index.php'>Page d'accueil</a></li>";
+        $menu .= "<li><a href='?liste'>Liste des Kanbans</a></li>\n";
         $menu .= "<li><a id='aPropos' href='?action=" . 'aPropos' . "'>À Propos</a></li>\n";
-        $menu .= "<li><a href='?action=nouveau'>Ajouter un fromage</a></li>\n</ul>\n</nav>\n";
+        $menu .= "<li><a href='?action=nouveau'>Ajouter un kanban</a></li>\n</ul>\n</nav>\n";
         $menu .= "<button onclick=\"window.location.href = '" . $this->router->getDisconnectionURL() . "';\">Déconnexion</button>\n";
 
         return $menu;

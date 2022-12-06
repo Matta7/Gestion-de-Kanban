@@ -30,7 +30,7 @@ class View {
     // Fonction qui va afficher le menu pour accéder aux différentes fonctionnalités.
     public function getMenu() {
         $menu = "<nav><ul><li id = 'accueil'> <a href='index.php'>Page d'accueil</a></li>\n";
-        $menu .= "<li id='listeFromage'><a href='?liste'>Liste des fromages</a></li>\n";
+        $menu .= "<li id='listeKanbans'><a href='?liste'>Liste des fromages</a></li>\n";
         $menu .= "<li><a id='aPropos' href='?action=" . 'aPropos' . "'>À Propos</a></li></ul></nav>";
         $menu .= "<button onclick=\"window.location.href = '" . $this->router->getLoginURL() . "';\">Se connecter</button>\n";
         $menu .= "<button onclick=\"window.location.href = '" . $this->router->getRegistrationURL() . "';\">S'inscrire</button>\n";
@@ -51,29 +51,29 @@ class View {
     }
 
     // Page d'erreur.
-    public function makeUnknownCheesePage() {
-        $this->title = "Fromage inconnu";
-        $this->content = "Fromage inconnu\n";
+    public function makeUnknownKanbanPage() {
+        $this->title = "Kanban inconnu";
+        $this->content = "Kanban inconnu\n";
     }
 
-    // Page affichant l'objet fromage.
-    public function makeCheesePage($cheese, $id = null) {
-        $this->title = $cheese->getName();
-        $this->content = '<p>' . $cheese->getName() . ' est un fromage issue de la region ' . $cheese->getRegion() . '. Crée en ' . $cheese->getYear() . "</p>\n";
-        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getCheeseUpdateURL($id) . "';\">Modifier</button>\n";
-        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getCheeseAskDeletionURL($id) . "';\">Supprimer</button>\n";
+    // Page affichant l'objet kanban.
+    public function makeKanbanPage($kanban, $id = null) {
+        $this->title = $kanban->getName();
+        $this->content = '<p>' . $kanban->getName() . ' est un fromage issue de la region ' . $kanban->getRegion() . '. Crée en ' . $kanban->getYear() . "</p>\n";
+        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanUpdateURL($id) . "';\">Modifier</button>\n";
+        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAskDeletionURL($id) . "';\">Supprimer</button>\n";
         //$this->content .= "<a href='" .  ."'> Modifier </a>\n";
-        //$this->content .= "<a href='" . $this->router->getCheeseAskDeletionURL($id) ."'> Supprimer </a>\n";
-        if($cheese->getImage() != null) {
-            $this->content .= "<p><img src='upload/" . $cheese->getImage() . "' alt='" . $cheese->getName() . "'></p>\n";
+        //$this->content .= "<a href='" . $this->router->getKanbanAskDeletionURL($id) ."'> Supprimer </a>\n";
+        if($kanban->getImage() != null) {
+            $this->content .= "<p><img src='upload/" . $kanban->getImage() . "' alt='" . $kanban->getName() . "'></p>\n";
         }
     }
 
     // Page affichant la liste, avec par défaut la page une.
-    public function makeListPage($cheeseTab, $page = 1) {
+    public function makeListPage($kanbanTab, $page = 1) {
         $this->title = 'Liste des fromages';
 
-        $this->content = "<form action='" . $this->router->getCheeseResearchURL() . "' method='POST'>\n";
+        $this->content = "<form action='" . $this->router->getKanbanResearchURL() . "' method='POST'>\n";
         if(key_exists('search', $_SESSION)) {
             $this->content .= "<p>Rechercher : <input type='text' name='search' value='" . $_SESSION['search'] . "'/></p></form>\n";
         }
@@ -83,28 +83,28 @@ class View {
 
         if(key_exists('search', $_SESSION)) {
             $this->content .= "<nav>\n<ul>\n";
-            foreach($cheeseTab as $key => $value) {
-                $this->content .= "<li><a href='" . $this->router->getCheeseURL($key) . "'>" . $value->getName() . "</a></li>\n";
+            foreach($kanbanTab as $key => $value) {
+                $this->content .= "<li><a href='" . $this->router->getKanbanURL($key) . "'>" . $value->getName() . "</a></li>\n";
             }
             $this->content .= "</ul>\n</nav>\n";
         }
         else {
-            $this->pagination($cheeseTab, $page);
+            $this->pagination($kanbanTab, $page);
         }
     }
 
     // Fonction pour la pagination. Il y a ici 5 objets par pages.
-    public function pagination($cheeseTab, $page) {
+    public function pagination($kanbanTab, $page) {
 
         $nbObjectPerPage = 5;
-        $pagination = array_keys($cheeseTab);
+        $pagination = array_keys($kanbanTab);
         $nbObject = count($pagination);
         $nbPages = ceil($nbObject / $nbObjectPerPage)+1;
         $firstObjet = ($page * $nbObjectPerPage) - $nbObjectPerPage;
 
         $error = false;
         if($page >= $nbPages) {
-            $this->makeListPage($cheeseTab, $page-1);
+            $this->makeListPage($kanbanTab, $page-1);
             $error = true;
         }
 
@@ -112,7 +112,7 @@ class View {
             $this->content .= "<nav>\n<ul>\n";
             for ($i = $firstObjet; $i < $firstObjet + $nbObjectPerPage; $i++) {
                 if(key_exists($i, $pagination)) {
-                    $this->content .= "<li><a href='" . $this->router->getCheeseURL($pagination[$i]) . "'>" . $cheeseTab[$pagination[$i]]->getName() . "</a></li>\n";
+                    $this->content .= "<li><a href='" . $this->router->getKanbanURL($pagination[$i]) . "'>" . $kanbanTab[$pagination[$i]]->getName() . "</a></li>\n";
                 }
             }
             $this->content .= "</ul>\n</nav>\n";
@@ -129,10 +129,10 @@ class View {
         $this->content = '<pre>'.htmlspecialchars(var_export($variable, true)) . "</pre>\n";
     }
 
-    // Page de création de fromage.
-    public function makeCheeseCreationPage($cheeseBuilder = null) {
-        if ($cheeseBuilder === null) {
-            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getCheeseSaveURL() . "' method='POST'>\n
+    // Page de création de kanban.
+    public function makeKanbanCreationPage($kanbanBuilder = null) {
+        if ($kanbanBuilder === null) {
+            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanSaveURL() . "' method='POST'>\n
             <p>Nom du fromage : <input type='text' name='name' /></p>\n
             <p>Région du fromage : <input type='text' name='region' /></p>\n
             <p>Année de creation du fromage : <input type='text' name='year' /></p>\n
@@ -140,43 +140,43 @@ class View {
             <p><input type='submit' value='Créer'></p>\n
             </form>\n";
         } else {
-            $cheese = $cheeseBuilder->createCheese();
-            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getCheeseSaveURL() . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' value='" . $cheese->getName() . "' />" . $cheeseBuilder->getError()['name'] . "</p>\n
-            <p>Region du fromage : <input type='text' name='region' value='" . $cheese->getRegion() . "' />" . $cheeseBuilder->getError()['region'] . "</p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' value='" . $cheese->getYear() . "' />" . $cheeseBuilder->getError()['year'] . "</p>\n
-            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $cheeseBuilder->getError()['image'] . "</p>\n
+            $kanban = $kanbanBuilder->createKanban();
+            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanSaveURL() . "' method='POST'>\n
+            <p>Nom du fromage : <input type='text' name='name' value='" . $kanban->getName() . "' />" . $kanbanBuilder->getError()['name'] . "</p>\n
+            <p>Region du fromage : <input type='text' name='region' value='" . $kanban->getRegion() . "' />" . $kanbanBuilder->getError()['region'] . "</p>\n
+            <p>Année de creation du fromage : <input type='text' name='year' value='" . $kanban->getYear() . "' />" . $kanbanBuilder->getError()['year'] . "</p>\n
+            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $kanbanBuilder->getError()['image'] . "</p>\n
             <p><input type='submit' value='Créer'></p>\n
             </form>\n";
         }
     }
 
     // Page de suppression d'objet.
-    public function makeCheeseDeletionPage($id) {
+    public function makeKanbanDeletionPage($id) {
         $this->title = 'Supprimer ?';
-        $this->content = "<h1>Voulez vous vraiment supprimer ce fromage ?</h1>\n<form action='".$this->router->getCheeseDeletionURL($id)."' method='POST'>\n
+        $this->content = "<h1>Voulez vous vraiment supprimer ce fromage ?</h1>\n<form action='".$this->router->getKanbanDeletionURL($id)."' method='POST'>\n
         <button>Supprimer</button>\n
         </form>\n";
     }
 
     // Page de modification d'objet.
-    public function makeCheeseUpdatePage($id, $cheeseBuilder = null) {
-        $cheese = $cheeseBuilder->createCheese();
-        if($cheeseBuilder->getError() != null) {
-            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getCheeseUpdatedURL($id) . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' value='" . $cheese->getName() . "' />" . $cheeseBuilder->getError()['name'] . "</p>\n
-            <p>Region du fromage : <input type='text' name='region' value='" . $cheese->getRegion() . "' />" . $cheeseBuilder->getError()['region'] . "</p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' value='" . $cheese->getYear() . "' />" . $cheeseBuilder->getError()['year'] . "</p>\n
-            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $cheeseBuilder->getError()['image'] . "</p>\n
+    public function makeKanbanUpdatePage($id, $kanbanBuilder = null) {
+        $kanban = $kanbanBuilder->createKanban();
+        if($kanbanBuilder->getError() != null) {
+            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanUpdatedURL($id) . "' method='POST'>\n
+            <p>Nom du fromage : <input type='text' name='name' value='" . $kanban->getName() . "' />" . $kanbanBuilder->getError()['name'] . "</p>\n
+            <p>Region du fromage : <input type='text' name='region' value='" . $kanban->getRegion() . "' />" . $kanbanBuilder->getError()['region'] . "</p>\n
+            <p>Année de creation du fromage : <input type='text' name='year' value='" . $kanban->getYear() . "' />" . $kanbanBuilder->getError()['year'] . "</p>\n
+            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $kanbanBuilder->getError()['image'] . "</p>\n
             <p><input type='submit' value='Modifier'></p>\n
             </form>\n";
         }
 
         else {
-            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getCheeseUpdatedURL($id) . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' value='" . $cheese->getName() . "' /></p>\n
-            <p>Region du fromage : <input type='text' name='region' value='" . $cheese->getRegion() . "' /></p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' value='" . $cheese->getYear() . "' /></p>\n
+            $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanUpdatedURL($id) . "' method='POST'>\n
+            <p>Nom du fromage : <input type='text' name='name' value='" . $kanban->getName() . "' /></p>\n
+            <p>Region du fromage : <input type='text' name='region' value='" . $kanban->getRegion() . "' /></p>\n
+            <p>Année de creation du fromage : <input type='text' name='year' value='" . $kanban->getYear() . "' /></p>\n
             <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'></p>\n
             <p><input type='submit' value='Modifier'></p>\n
             </form>\n";
@@ -225,66 +225,66 @@ class View {
     }
 
     // Redirection vers une autre page après avoir créé un objet.
-    public function displayCheeseCreationSuccess($id){
-        $this->router->POSTredirect('?id='. $id, "Le fromage a été crée avec succès.");
+    public function displayKanbanCreationSuccess($id){
+        $this->router->POSTredirect('?id='. $id, "Le kanban a été crée avec succès.");
     }
 
     // Redirection vers une autre page après avoir créé un objet avec une erreur.
-    public function displayCheeseCreationFailure() {
+    public function displayKanbanCreationFailure() {
         $this->router->POSTredirect('?action=nouveau', "Un champ est invalide.");
     }
 
     // Redirection vers une autre page après avoir supprimé un objet.
-    public function displayCheeseDeletionSuccess() {
-        $this->router->POSTredirect('?liste', "Le fromage a été supprimé avec succès.");
+    public function displayKanbanDeletionSuccess() {
+        $this->router->POSTredirect('?liste', "Le kanban a été supprimé avec succès.");
     }
 
     // Redirection vers une autre page après avoir supprimé un objet avec une erreur.
-    public function displayCheeseDeletionFailure($id) {
+    public function displayKanbanDeletionFailure($id) {
         $this->router->POSTredirect("?id=$id", "L'action a échoué.");
     }
 
     // Redirection vers une autre page après avoir créé un objet.
-    public function displayCheeseUpdatedSuccess($id) {
-        $this->router->POSTredirect("?id=$id", "Le fromage a été modifié.");
+    public function displayKanbanUpdatedSuccess($id) {
+        $this->router->POSTredirect("?id=$id", "Le kanban a été modifié.");
     }
 
-    public function displayCheeseUpdatedFailure($id) {
+    public function displayKanbanUpdatedFailure($id) {
         $this->router->POSTredirect("?action=modification&id=$id", "Un champ est invalide.");
     }
 
     // Redirection vers une autre page après avoir recherché un objet.
-    public function displayCheeseResearchListSuccess($search) {
-        $this->router->POSTredirect("?liste=$search", "Fromages commençant par $search :");
+    public function displayKanbanResearchListSuccess($search) {
+        $this->router->POSTredirect("?liste=$search", "Kanbans commençant par $search :");
     }
 
     // Redirection vers une autre page après avoir recherché un objet avec une erreur.
-    public function displayCheeseResearchListFailure() {
+    public function displayKanbanResearchListFailure() {
         $this->router->POSTredirect("?liste", "Recherche invalide");
     }
 
     // Redirection vers une autre page après s'être connecté.
-    public function displayCheeseAuthenticationSuccess($name) {
+    public function displayKanbanAuthenticationSuccess($name) {
         $this->router->POSTredirect($this->router->getHomePageURL(), "Vous êtes connecté $name.");
     }
 
     // Redirection vers une autre page après s'être connecté avec une erreur.
-    public function displayCheeseAuthenticationFailure() {
+    public function displayKanbanAuthenticationFailure() {
         $this->router->POSTredirect('?action=connexion', "Nom d'utilisateur ou mot de passe erroné.");
     }
 
     // Redirection vers une autre page après s'être déconnecté avec une erreur.
-    public function displayCheeseDisconnectionFailure() {
+    public function displayKanbanDisconnectionFailure() {
         $this->router->POSTredirect($this->router->getHomePageURL(), "Vous êtes déconnecté.");
     }
 
     // Redirection vers une autre page après s'être inscrit.
-    public function displayCheeseRegistrationSuccess($name) {
+    public function displayKanbanRegistrationSuccess($name) {
         $this->router->POSTredirect($this->router->getHomePageURL(), "Inscription réussie. Vous êtes connecté $name");
     }
 
     // Redirection vers une autre page après s'être inscrit avec une erreur.
-    public function displayCheeseRegistrationFailure() {
+    public function displayKanbanRegistrationFailure() {
         $this->router->POSTredirect($this->router->getRegistrationURL(), "Un champ est invalide.");
     }
 }
