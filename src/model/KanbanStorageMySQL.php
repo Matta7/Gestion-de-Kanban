@@ -14,14 +14,25 @@ class CheeseStorageMySQL implements CheeseStorage {
 
     // Permet de récupérer l'objet d'identifiant $id.
     public function read($id) {
-        /*$requete = "SELECT * FROM cheese WHERE id = :id";
+        $requete = "SELECT * FROM kanban WHERE idKanban = :id";
         $stmt = $this->db->prepare($requete);
         $data = array(':id' => $id);
         $stmt->execute($data);
 
-        $resultatRequete = $stmt->fetch();
+        $resultatRequeteK = $stmt->fetch();
+        
+        //Search for members
+        $requete = "SELECT * FROM membres WHERE idKanban = :id";
+        $stmt = this->db->prepare($requete);
+        $stmt->execute($data);
 
-        return new Cheese($resultatRequete['name'], $resultatRequete['region'], $resultatRequete['year'], $resultatRequete['creator'], $resultatRequete['image']);*/
+        $resultatRequeteM = $stmt->fetchAll();
+        $i = 0;
+        foreach($resultatRequeteM as $key => $value){
+            $membres[$i] = $value['login'];
+            $i++;
+        }
+        return new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequete['creator'], $membres, $resultatRequete['image']);
     }
 
     // Permet de récupérer la liste de tous les objets.
