@@ -63,4 +63,12 @@ class AccountStorageMySQL implements AccountStorage {
 
         return true;
     }
+
+    public function getAccount($login) {
+
+    }
+
+    public function getAllAccounts() {
+        
+    }
 }

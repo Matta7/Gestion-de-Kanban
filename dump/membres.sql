@@ -17,3 +17,10 @@ CREATE TABLE membres (
   constraint fkmembresidKanbanKanban foreign key (idKanban) references kanban (idKanban) ON DELETE CASCADE,
   constraint fkmembresloginAccounts foreign key (login) references accounts (login) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `membres` (`idKanban`, `login`) VALUES
+('2', 'vallee'),
+('1', 'vallee'),
+('3', 'vallee');
+COMMIT;

@@ -20,3 +20,9 @@ CREATE TABLE kanban (
   constraint fkkanbancreatoraccount foreign key (creator) references accounts (login) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+INSERT INTO `kanban` (`nameKanban`, `descKanban`, `creator`, `public`) VALUES
+('k1', 'banan', 'admin', 0),
+('k2', 'poir', 'admin', 0),
+('k3', 'pom', 'admin', 1);
+COMMIT;
