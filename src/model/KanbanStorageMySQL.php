@@ -32,7 +32,33 @@ class CheeseStorageMySQL implements CheeseStorage {
             $membres[$i] = $value['login'];
             $i++;
         }
-        return new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequete['creator'], $membres, $resultatRequete['image']);
+
+        // Créations des colonnes
+        $requete = "SELECT * FROM colonnes WHERE kanban = :id ORDER BY orderCol";
+        $stmt = this->db->prepare($requete);
+        $stmt->execute($data);
+
+        $resultatRequeteC = $stmt->fetchAll();
+
+        $j = 0;
+        foreach($resultatRequeteC as $key => $value){
+            // Creation d'une colonne
+            $requete = "SELECT * FROM taches WHERE idCol = :id";
+            $stmt = this->db->prepare($requete);
+            $datacol = array(':id' => $value['idCol']);
+            $stmt->execute($datacol);
+
+            $resultatRequeteT = $stmt->fetchAll();
+            $i = 0;
+            foreach($resultatRequeteT as $keyt => $valuet){
+                $tasks[$i] = new Task($valuet['descTache'], $valuet['affectation'], $dateLimite['dateLimite']);
+                $i++;
+            }
+            $columns[$j] = new Column($value['nameCol'], $tasks);
+            $j++;
+            $tasks = null;
+        }
+        return new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequete['creator'], $membres, $resultatRequete['image'], $columns);
     }
 
     // Permet de récupérer la liste de tous les objets.
