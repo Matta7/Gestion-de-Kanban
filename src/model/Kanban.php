@@ -40,7 +40,10 @@ class Kanban {
     }
 
     public function isPublic() {
-        return $this->public
+        if($this->public == 0) {
+            return true;
+        }
+        return false;
     }
 
     public function getCreator() {

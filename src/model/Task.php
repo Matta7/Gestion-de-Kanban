@@ -10,12 +10,19 @@ $dateLimite : date limite de la tâche.
 
 class Task {
 
+    private $id;
     private $desc;
+    private $affectation;
+    private $dateLimite; 
 
     public function __construct($desc, $affectation = null, $dateLimite = null) {
         $this->desc = $desc;
         $this->affectation = $affectation;
         $this->dateLimite = $dateLimite;
+    }
+
+    public function getId() {
+        return $this->id;
     }
 
     public function getDesc() {
