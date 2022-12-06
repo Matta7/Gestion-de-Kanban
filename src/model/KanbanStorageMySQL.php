@@ -2,6 +2,7 @@
 
 require_once('model/KanbanBuilder.php');
 require_once('model/Kanban.php');
+require_once('model/Column.php');
 require_once('model/KanbanStorage.php');
 
 class KanbanStorageMySQL /*implements KanbanStorage*/ {
@@ -114,28 +115,47 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         return $resId;
     }
 
-    // Permet de supprimer un objet de la liste.
+    // Permet de supprimer un Kanban partir de son id.
     public function delete($id) {
-        /*$requete = "DELETE FROM cheese WHERE cheese . id = :id";
+        $requete = "DELETE FROM kanban WHERE idKanban = :id";
         $stmt = $this->db->prepare($requete);
         $data = array(':id' => $id);
-        $stmt->execute($data);*/
+        $stmt->execute($data);
     }
 
-    // Permet de modifier un objet.
-    public function update($id, $a, $image = null) {
-        /*$requete = "UPDATE cheese SET name = :name, region = :region, year = :year WHERE cheese . id = :id";
+    // Permet de modifier les informations d'un kanban.
+    public function updateKanbanInfo($id, $name, $desc) {
+        $requete = "UPDATE kanban SET nameKanban = :name, descKanban = :desc WHERE idKanban = :id ";
         $stmt = $this->db->prepare($requete);
-        $data = array(':name' => $a->getName(),
-            ':region' => $a->getRegion(),
-            ':year' => $a->getYear(),
+        $data = array(':name' => $name,
+            ':desc' => $desc,
             ':id' => $id
         );
 
         $stmt->execute($data);
-        if($image != null) {
-            $this->addImage($id, $image);
-        }*/
+    }
+    // Insère la colonne (vide) $col a la position $pos dans le kanban d'id $id 
+    public function addColumn($id, $pos, $colName){
+        // On bouge tout apres en avant pour faire de la place
+        $requete = "UPDATE colonnes SET orderCol = orderCol+1 WHERE kanban = :id AND orderCol >= :pos ";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':pos' => $pos,
+            ':id' => $id
+        );
+
+        $stmt->execute($data);
+
+        $requete = "INSERT INTO colonnes(nameCol, orderCol, kanban) VALUES (:name, :pos, :id)";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':pos' => $pos,
+            ':id' => $id,
+            ':name' => $colName
+        );
+
+        $stmt->execute($data);
+
+        $requete = "SELECT MAX(idCol) FROM colonnes";
+        return ($this->db->query($requete)->fetch())['MAX(idCol)'];
     }
 
     // Permet d'avoir la liste de tous les objets commençant par $search.
