@@ -9,12 +9,17 @@ $tasks : liste de tâches de la colonne.
 
 class Column {
 
+    private $id;
     private $name;
     private $tasks;
 
-    public function __construct($name, $tasks = null) {
+    public function __construct($id, $name, $tasks = null) {
         $this->name = $name;
         $this->tasks = $tasks;
+    }
+
+    public function getId() {
+        return $this->id;
     }
 
     public function getName() {

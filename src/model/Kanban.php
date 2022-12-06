@@ -3,21 +3,12 @@
 /*
 Objet pour les kanbans.
 
-$name est son nom.
-$desc est sa description.
-$public = 0 : Le kanban est public, sinon il est privé.
-$creator est le créateur du kanban.
-$members sont les membres du kanban.
-
-$columns : Liste de colonnes.
-$columns[i]['id'] : id de la colonne i.
-$columns[i]['name'] : nom de la colonne i.
-$columns[i]['tasks'] : liste de tâches de la colonne i.
-$columns[i]['tasks'][$id]['name'] : nom de la tâche d'id $id de la colonne i.
-$columns[i]['tasks'][$id]['id'] : id de la tâche d'id $id de la colonne i.
-$columns[i]['tasks'][$id]['affectation'] : compte affecté à la tâche d'id $id de la colonne i.
-
-...
+$name : nom du kanban.
+$desc : description du kanban.
+$public : objet public ou non.
+$creator : créateur du kanban.
+$members : liste de membres (Account) du kanban.
+$columns : liste de colonnes (Columns).
 */
 
 class Kanban {
@@ -49,10 +40,7 @@ class Kanban {
     }
 
     public function isPublic() {
-        if($this->public == 0) {
-            return true;
-        }
-        return false;
+        return $this->public
     }
 
     public function getCreator() {

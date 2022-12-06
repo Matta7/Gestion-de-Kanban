@@ -30,7 +30,7 @@ class View {
     // Fonction qui va afficher le menu pour accéder aux différentes fonctionnalités.
     public function getMenu() {
         $menu = "<nav><ul><li id = 'accueil'> <a href='index.php'>Page d'accueil</a></li>\n";
-        $menu .= "<li id='listeKanbans'><a href='?liste'>Liste des fromages</a></li>\n";
+        $menu .= "<li id='listeKanbans'><a href='?liste'>Liste des kanbans</a></li>\n";
         $menu .= "<li><a id='aPropos' href='?action=" . 'aPropos' . "'>À Propos</a></li></ul></nav>";
         $menu .= "<button onclick=\"window.location.href = '" . $this->router->getLoginURL() . "';\">Se connecter</button>\n";
         $menu .= "<button onclick=\"window.location.href = '" . $this->router->getRegistrationURL() . "';\">S'inscrire</button>\n";
@@ -59,7 +59,15 @@ class View {
     // Page affichant l'objet kanban.
     public function makeKanbanPage($kanban, $id = null) {
         $this->title = $kanban->getName();
-        $this->content = '<p>' . $kanban->getName() . ' est un fromage issue de la region ' . $kanban->getRegion() . '. Crée en ' . $kanban->getYear() . "</p>\n";
+        $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
+
+        foreach($kanban->getColumns as $c) {
+            $this->content .= $c->getName();
+            foreach($c->getTasks() as $t) {
+                $this->content .= $t->getDesc();
+            }
+        }
+        
         $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanUpdateURL($id) . "';\">Modifier</button>\n";
         $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAskDeletionURL($id) . "';\">Supprimer</button>\n";
         //$this->content .= "<a href='" .  ."'> Modifier </a>\n";
