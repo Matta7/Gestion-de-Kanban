@@ -4,6 +4,7 @@ require_once('model/KanbanBuilder.php');
 require_once('model/Kanban.php');
 require_once('model/Column.php');
 require_once('model/KanbanStorage.php');
+require_once('model/Task.php');
 
 class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
@@ -41,7 +42,6 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
         $resultatRequeteC = $stmt->fetchAll();
 
-        // Problème ici TODO REGLER CA
         $j = 0;
         foreach($resultatRequeteC as $key => $value){
             // Creation d'une colonne
@@ -53,16 +53,14 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
             $resultatRequeteT = $stmt->fetchAll();
             $i = 0;
             foreach($resultatRequeteT as $keyt => $valuet){
-                var_dump($valuet);
-            $tasks[$i] = new Task($valuet['descTache']/*, $valuet['affectation'], $valuet['dateLimite']*/);
-                //var_dump($resultatRequeteT);
+                $tasks[$i] = new Task($valuet['descTache'], $valuet['affectation'], $valuet['dateLimite']);
                 $i++;
             }
             $columns[$j] = new Column($value['idCol'],$value['nameCol'], $tasks);
             $j++;
             $tasks = null;
         }
-        return new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequete['creator'], $membres, $resultatRequete['image'], $columns);
+        return new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequeteK['creator'], $membres, $resultatRequeteK['image'], $columns);
     }
 
     // Permet de récupérer la liste de tous les objets.

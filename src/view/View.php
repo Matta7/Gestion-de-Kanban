@@ -58,9 +58,9 @@ class View {
 
     // Page affichant l'objet kanban.
     public function makeKanbanPage($kanban, $id = null) {
+        var_dump($kanban);
         $this->title = $kanban->getName();
         $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
-        //var_dump($kanban);
         foreach($kanban->getColumns as $c) {
             $this->content .= $c->getName();
             foreach($c->getTasks() as $t) {
