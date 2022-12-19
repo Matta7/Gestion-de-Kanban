@@ -56,7 +56,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
                 $tasks[$i] = new Task($valuet['idTache'], $valuet['descTache'], $valuet['affectation'], $valuet['dateLimite']);
                 $i++;
             }
-            $columns[$j] = new Column($value['idCol'],$value['nameCol'], $tasks);
+            $columns[$j] = new Column($value['idCol'], $value['nameCol'], $tasks);
             $j++;
             $tasks = null;
         }
@@ -79,11 +79,13 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
             $resultatRequeteM = $stmt->fetchAll();
             $membres = null;
             $i = 0;
-            foreach($resultatRequeteM as $key => $value){
-                $membres[$i] = $value['login'];
+            foreach($resultatRequeteM as $keyM => $valueM){
+                $membres[$i] = $valueM['login'];
                 $i++;
             }
-            $tabRes[$value['idKanban']] = new Kanban($resultatRequeteK['nameKanban'], $resultatRequeteK['descKanban'], $resultatRequeteK['public'], $resultatRequete['creator'], $membres);
+
+            $k = new Kanban($value['nameKanban'], $value['descKanban'], $value['public'], $value['creator'], $membres);
+            $tabRes[$value['idKanban']] = $k;
         }
         return $tabRes;
     }

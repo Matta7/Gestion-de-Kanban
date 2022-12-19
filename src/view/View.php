@@ -62,10 +62,10 @@ class View {
         $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
         $this->content .= "<div class=\"kanban\">\n";
         foreach($kanban->getColumns() as $c) {
-            $this->content .= "<div class=\"colonne\" id=\"" . $c->getId() . "\">\n";
+            $this->content .= "<div id=\"colonne-" . $c->getId() . "\" class=\"colonne\">\n";
             $this->content .= "<h2 class=\"nom-colonne\">" . $c->getName() . "</h2>\n";
             foreach($c->getTasks() as $t) {
-                $this->content .= "<div id=\"" . $t->getId() . "\" class=\"tache\" draggable=\"true\">" . $t->getDesc() . "</div>\n";
+                $this->content .= "<div id=\"tache-" . $t->getId() . "\" class=\"tache\" draggable=\"true\">" . $t->getDesc() . "</div>\n";
             }
             $this->content .= "</div>\n";
         }
@@ -125,6 +125,7 @@ class View {
             for ($i = $firstObjet; $i < $firstObjet + $nbObjectPerPage; $i++) {
                 if(key_exists($i, $pagination)) {
                     $this->content .= "<li><a href='" . $this->router->getKanbanURL($pagination[$i]) . "'>" . $kanbanTab[$pagination[$i]]->getName() . "</a></li>\n";
+                    var_export($kanbanTab[$pagination[$i]]);
                 }
             }
             $this->content .= "</ul>\n</nav>\n";

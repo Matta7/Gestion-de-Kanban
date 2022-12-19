@@ -18,14 +18,9 @@ function dragTasks() {
     e.preventDefault();
     var targetColumn = e.target.closest('.colonne');
     if (targetColumn) {
-      var cardId = e.dataTransfer.getData('text/plain');
-      var cardElement = document.getElementById(cardId);
-      targetColumn.appendChild(cardElement);
-      console.log(cardElement);
+      var taskId = e.dataTransfer.getData('text/plain');
+      var taskElement = document.getElementById(taskId);
+      targetColumn.appendChild(taskElement);
     }
   });
 }
-
-//console.log("ui");
-
-//body.onload = dragTasks();
