@@ -1,10 +1,20 @@
-div{
-    border: solid black 5px;
-    padding: 1em;
-    background-color:grey;
-    opacity:0.80;
-    grid-column: 0;
+.kanban {
+    display: flex;
 }
+  
+.colonne {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+  
+.tache {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
 
 li{
     background-color: rgba(231, 231, 23, 0.56);

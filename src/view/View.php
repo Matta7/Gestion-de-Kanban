@@ -58,15 +58,18 @@ class View {
 
     // Page affichant l'objet kanban.
     public function makeKanbanPage($kanban, $id = null) {
-        var_dump($kanban);
         $this->title = $kanban->getName();
         $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
-        foreach($kanban->getColumns as $c) {
-            $this->content .= $c->getName();
+        $this->content .= "<div class=\"kanban\">\n";
+        foreach($kanban->getColumns() as $c) {
+            $this->content .= "<div class=\"colonne\" id=\"" . $c->getId() . "\">\n";
+            $this->content .= "<h2 class=\"nom-colonne\">" . $c->getName() . "</h2>\n";
             foreach($c->getTasks() as $t) {
-                $this->content .= $t->getDesc();
+                $this->content .= "<div id=\"" . $t->getId() . "\" class=\"tache\" draggable=\"true\">" . $t->getDesc() . "</div>\n";
             }
+            $this->content .= "</div>\n";
         }
+        $this->content .= "</div>\n";
 
         $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanUpdateURL($id) . "';\">Modifier</button>\n";
         $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAskDeletionURL($id) . "';\">Supprimer</button>\n";
@@ -93,6 +96,7 @@ class View {
             $this->content .= "<nav>\n<ul>\n";
             foreach($kanbanTab as $key => $value) {
                 $this->content .= "<li><a href='" . $this->router->getKanbanURL($key) . "'>" . $value->getName() . "</a></li>\n";
+                console.log($value);
             }
             $this->content .= "</ul>\n</nav>\n";
         }

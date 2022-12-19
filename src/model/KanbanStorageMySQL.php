@@ -53,7 +53,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
             $resultatRequeteT = $stmt->fetchAll();
             $i = 0;
             foreach($resultatRequeteT as $keyt => $valuet){
-                $tasks[$i] = new Task($valuet['descTache'], $valuet['affectation'], $valuet['dateLimite']);
+                $tasks[$i] = new Task($valuet['idTache'], $valuet['descTache'], $valuet['affectation'], $valuet['dateLimite']);
                 $i++;
             }
             $columns[$j] = new Column($value['idCol'],$value['nameCol'], $tasks);

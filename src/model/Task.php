@@ -15,8 +15,8 @@ class Task {
     private $affectation;
     private $dateLimite; 
 
-    public function __construct($desc, $affectation = null, $dateLimite = null) {
-        $this->id = 0;
+    public function __construct($id, $desc, $affectation = null, $dateLimite = null) {
+        $this->id = $id;
         $this->desc = $desc;
         $this->affectation = $affectation;
         $this->dateLimite = $dateLimite;
@@ -27,7 +27,7 @@ class Task {
     }
 
     public function getDesc() {
-        return $this->name;
+        return $this->desc;
     }
 
     public function getAffectation() {
