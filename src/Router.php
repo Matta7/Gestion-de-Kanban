@@ -171,7 +171,7 @@ class Router {
             else {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
-                    if ($_SESSION['user']->getName() === $kanbanDTB->read($_GET['id'])->getCreator()) {
+                    if ($_SESSION['user']->getLogin() === $kanbanDTB->read($_GET['id'])->getCreator()) {
                         $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation'));
                     }
                 }
