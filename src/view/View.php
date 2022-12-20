@@ -96,7 +96,6 @@ class View {
             $this->content .= "<nav>\n<ul>\n";
             foreach($kanbanTab as $key => $value) {
                 $this->content .= "<li><a href='" . $this->router->getKanbanURL($key) . "'>" . $value->getName() . "</a></li>\n";
-                console.log($value);
             }
             $this->content .= "</ul>\n</nav>\n";
         }
@@ -125,7 +124,6 @@ class View {
             for ($i = $firstObjet; $i < $firstObjet + $nbObjectPerPage; $i++) {
                 if(key_exists($i, $pagination)) {
                     $this->content .= "<li><a href='" . $this->router->getKanbanURL($pagination[$i]) . "'>" . $kanbanTab[$pagination[$i]]->getName() . "</a></li>\n";
-                    var_export($kanbanTab[$pagination[$i]]);
                 }
             }
             $this->content .= "</ul>\n</nav>\n";
@@ -146,19 +144,24 @@ class View {
     public function makeKanbanCreationPage($kanbanBuilder = null) {
         if ($kanbanBuilder === null) {
             $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanSaveURL() . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' /></p>\n
-            <p>Région du fromage : <input type='text' name='region' /></p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' /></p>\n
+            <p>Nom du Kanban : <input type='text' name='name' /></p>\n
+            <p>Description : <input type='text' name='desc' /></p>\n
+            <p>Public : <input type='checkbox' name='public' /></p>\n
             <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'></p>\n
             <p><input type='submit' value='Créer'></p>\n
             </form>\n";
         } else {
             $kanban = $kanbanBuilder->createKanban();
             $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanSaveURL() . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' value='" . $kanban->getName() . "' />" . $kanbanBuilder->getError()['name'] . "</p>\n
-            <p>Region du fromage : <input type='text' name='region' value='" . $kanban->getRegion() . "' />" . $kanbanBuilder->getError()['region'] . "</p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' value='" . $kanban->getYear() . "' />" . $kanbanBuilder->getError()['year'] . "</p>\n
-            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $kanbanBuilder->getError()['image'] . "</p>\n
+            <p>Nom du Kanban : <input type='text' name='name' value='" . $kanban->getName() . "' />" . $kanbanBuilder->getError()['name'] . "</p>\n
+            <p>Description : <input type='text' name='desc' value='" . $kanban->getDesc() . "' />" . $kanbanBuilder->getError()['region'] . "</p>\n";
+            if($kanban->isPublic()) {
+                $this->content .= "<p>Public : <input type='checkbox' name='public' checked /></p>\n";
+            }
+            else {
+                $this->content .= "<p>Public : <input type='checkbox' name='public'/></p>\n";
+            }
+            $this->content .= "<p>Insérer une image de fond (optionnel) : <input type='file' name='image'>" . $kanbanBuilder->getError()['image'] . "</p>\n
             <p><input type='submit' value='Créer'></p>\n
             </form>\n";
         }
@@ -167,7 +170,7 @@ class View {
     // Page de suppression d'objet.
     public function makeKanbanDeletionPage($id) {
         $this->title = 'Supprimer ?';
-        $this->content = "<h1>Voulez vous vraiment supprimer ce fromage ?</h1>\n<form action='".$this->router->getKanbanDeletionURL($id)."' method='POST'>\n
+        $this->content = "<h1>Voulez vous vraiment supprimer ce kanban ?</h1>\n<form action='".$this->router->getKanbanDeletionURL($id)."' method='POST'>\n
         <button>Supprimer</button>\n
         </form>\n";
     }

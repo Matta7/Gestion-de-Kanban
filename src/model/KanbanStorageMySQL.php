@@ -91,13 +91,13 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
     }
 
     // Permet d'inserer le kanban données dans la base de données. 
-    public function create(Kanban $a) {
-        $requete = "INSERT INTO kanban(nameKanban, descKanban, creator, public) VALUES (:name, :desc, :creator, :public)";
+    public function create($k) {
+        $requete = "INSERT INTO kanban (nameKanban, descKanban, creator, public) VALUES (:name, :desc, :creator, :public)";
         $stmt = $this->db->prepare($requete);
-        $data = array(':name' => $a->getName(),
-            ':desc' => $a->getDesc(),
-            ':creator' => $a->getCreator(),
-            ':public' => (-1+($a->isPublic()))
+        $data = array(':name' => $k->getName(),
+            ':desc' => $k->getDesc(),
+            ':creator' => $k->getCreator(),
+            ':public' => (-1+($k->isPublic()))
         );
         $stmt->execute($data);
 

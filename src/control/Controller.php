@@ -59,6 +59,12 @@ class Controller {
 
     // Permet de sauvegarder un nouvel objet créé par un utilisateur.
     public function saveNewKanban(array $data) {
+        if($data['public'] === "on") {
+            $data['public'] = 0;
+        }
+        else {
+            $data['public'] = 1;
+        }
         $kanbanBuilder = new KanbanBuilder($data);
 
         // Si le kanban entré par l'utilisateur est valide, alors on supprime la sauvegarde actuelle et on créer le kanban.
@@ -68,7 +74,7 @@ class Controller {
             $k = $kanbanBuilder->createKanban();
 
             $id = $this->kanbanDTB->create($k);
-
+            
             // Si une image a été envoyée avec, on vérifie que celle-ci est valide, on la stocke dans le dossier upload et on l'ajoute à la base de données.
             if(key_exists('image', $_FILES)) {
                 if ($_FILES['image']['error'] == 0) {

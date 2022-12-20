@@ -19,32 +19,27 @@ class KanbanBuilder {
     }
 
     public function createKanban() {
-        return new Kanban(strip_tags($this->data['name']), strip_tags($this->data['desc']), $this->data['public'], $_SESSION['user']->getName());
+        return new Kanban(strip_tags($this->data['name']), strip_tags($this->data['desc']), $this->data['public'], $_SESSION['user']->getLogin());
     }
 
     public function isValid() {
         $this->error= array('name' => '',
-            'desc' => ''//,
-            //'image' => ''
+            'desc' => '',
+            'image' => ''
         );
 
-        $a = $this->createKanban();
+        $k = $this->createKanban();
+        $valid = true;
 
-        if ($a->getName() != "" && $a->getRegion() != "" && $a->getYear() > 0) {
-            return true;
+        if ($k->getName() === "" || $k->getName() !== $this->data['name']) {
+            $this->error['name'] = "Le champ 'Nom' est invalide.";
+            $valid = false;
         }
-        else {
-            if ($a->getName() === "" || strip_tags($a->getName()) !== $a->getName()) {
-                $this->error['name'] = "Le champ 'Nom du fromage' est invalide.";
-            }
-            if ($a->getRegion() === "" || strip_tags($a->getRegion()) !== $a->getRegion()) {
-                $this->error['region'] = "Le champ 'Region du fromage' est invalide.";
-            }
-            if ($a->getYear() <= 0) {
-                $this->error['year'] = "Le champ 'Année de creation du fromage' est invalide.";
-            }
-            return false;
+        if ($k->getDesc() === "" || $k->getDesc() !== $this->data['desc']) {
+            $this->error['desc'] = "Le champ 'Description' est invalide.";
+            $valid = false;
         }
+        return $valid;
     }
 
     public function isImageValid($image, $id) {
@@ -53,7 +48,7 @@ class KanbanBuilder {
             $this->error['image'] = "Ce n'est pas une image.";
             return false;
         }
-        if($type != "jpg" && $type != "png" && $type != "jpeg" && $type != "gif" ) {
+        if($type != "jpg" || $type != "png" || $type != "jpeg" || $type != "gif" ) {
             $this->error['image'] = "Les types d'image autorisés sont JPG, JPEG, PNG & GIF.";
             return false;
         }
