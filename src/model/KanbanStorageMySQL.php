@@ -124,13 +124,19 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
     }
 
     // Permet de modifier les informations d'un kanban.
-    public function updateKanbanInfo($id, $name, $desc) {
-        $requete = "UPDATE kanban SET nameKanban = :name, descKanban = :desc WHERE idKanban = :id ";
+    public function updateKanbanInfo($id, $k, $image) {
+        $requete = "UPDATE kanban SET nameKanban = :name, descKanban = :desc, public = :public WHERE idKanban = :id";
         $stmt = $this->db->prepare($requete);
-        $data = array(':name' => $name,
-            ':desc' => $desc,
+        $data = array(':name' => $k->getName(),
+            ':desc' => $k->getDesc(),
             ':id' => $id
         );
+        if($k->isPublic()) {
+            $data[':public'] = 0;
+        }
+        else {
+            $data[':public'] = 1;
+        }
 
         $stmt->execute($data);
     }

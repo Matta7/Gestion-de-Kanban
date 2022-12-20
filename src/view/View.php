@@ -170,7 +170,7 @@ class View {
     // Page de suppression d'objet.
     public function makeKanbanDeletionPage($id) {
         $this->title = 'Supprimer ?';
-        $this->content = "<h1>Voulez vous vraiment supprimer ce kanban ?</h1>\n<form action='".$this->router->getKanbanDeletionURL($id)."' method='POST'>\n
+        $this->content = "<h2>Voulez vous vraiment supprimer ce kanban ?</h2>\n<form action='".$this->router->getKanbanDeletionURL($id)."' method='POST'>\n
         <button>Supprimer</button>\n
         </form>\n";
     }
@@ -180,20 +180,30 @@ class View {
         $kanban = $kanbanBuilder->createKanban();
         if($kanbanBuilder->getError() != null) {
             $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanUpdatedURL($id) . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' value='" . $kanban->getName() . "' />" . $kanbanBuilder->getError()['name'] . "</p>\n
-            <p>Region du fromage : <input type='text' name='region' value='" . $kanban->getRegion() . "' />" . $kanbanBuilder->getError()['region'] . "</p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' value='" . $kanban->getYear() . "' />" . $kanbanBuilder->getError()['year'] . "</p>\n
-            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $kanbanBuilder->getError()['image'] . "</p>\n
+            <p>Nom du Kanban : <input type='text' name='name' value='" . $kanban->getName() . "' />" . $kanbanBuilder->getError()['name'] . "</p>\n
+            <p>Description : <input type='text' name='desc' value='" . $kanban->getDesc() . "' />" . $kanbanBuilder->getError()['desc'] . "</p>\n";
+            if($kanban->isPublic()) {
+                $this->content .= "<p>Public : <input type='checkbox' name='public' checked /></p>\n";
+            }
+            else {
+                $this->content .= "<p>Public : <input type='checkbox' name='public'/></p>\n";
+            }            
+            $this->content .= "<p>Insérer une image correspondant (optionnel) : <input type='file' name='image'>" . $kanbanBuilder->getError()['image'] . "</p>\n
             <p><input type='submit' value='Modifier'></p>\n
             </form>\n";
         }
 
         else {
             $this->content = "<form enctype='multipart/form-data' action='" . $this->router->getKanbanUpdatedURL($id) . "' method='POST'>\n
-            <p>Nom du fromage : <input type='text' name='name' value='" . $kanban->getName() . "' /></p>\n
-            <p>Region du fromage : <input type='text' name='region' value='" . $kanban->getRegion() . "' /></p>\n
-            <p>Année de creation du fromage : <input type='text' name='year' value='" . $kanban->getYear() . "' /></p>\n
-            <p>Insérer une image correspondant (optionnel) : <input type='file' name='image'></p>\n
+            <p>Nom du Kanban : <input type='text' name='name' value='" . $kanban->getName() . "' /></p>\n
+            <p>Description : <input type='text' name='desc' value='" . $kanban->getDesc() . "' /></p>\n";
+            if($kanban->isPublic()) {
+                $this->content .= "<p>Public : <input type='checkbox' name='public' checked /></p>\n";
+            }
+            else {
+                $this->content .= "<p>Public : <input type='checkbox' name='public'/></p>\n";
+            }
+            $this->content .= "<p>Insérer une image correspondant (optionnel) : <input type='file' name='image'></p>\n
             <p><input type='submit' value='Modifier'></p>\n
             </form>\n";
         }
@@ -225,19 +235,6 @@ class View {
     // Page "à propos".
     public function makeAProposPage(){
         $this->title = 'À propos';
-        $this->content="<p>Numéro de groupe : Groupe 64</p>\n";
-        $this->content.="<p>Numéros étudiants des membres du groupe : 21910887 & 21908377</p>\n";
-        $this->content.="<p>Nous avons réalisé toutes les fonctionnalité de base, c'est à dire, la création d'objet ainsi que l'authentification d'un compte, tout deux répertoriés dans une base de donnée MySQL.</p>\n";
-        $this->content.="<p>Un utilisateur connecté peut ainsi ajouter des objets, modifier et supprimer l'objet qu'il crée, sauf dans le cas où son statue est admin.</p>\n";
-        $this->content.="<p>Nous avons aussi implémenter la création de compte, un visiteur lambda peut ainsi se créer un compte.</p>\n";
-        $this->content.="<p>Parmi les compléments suggérés, nous avons réaliser :</p>\n";
-        $this->content.="<ul>\n<li>(*) Une recherche d'objets, nous pouvons ainsi rechercher un objet à partir d'une chaine de caractère. La recherche d'objet est accessible depuis la liste des fromages.</li>\n<li>(*) Associer des images aux obets, un objet peut être illustré par zéro ou une image modifiable par le créateur de l'objet ou l'admin.</li>\n<li>En troisième et dernier complément, nous avons implémenter le système de pagination. Il s'applique lorsque la liste des objets est affiché, n'est pas utilisé lors de la recherche mais le pourrait.</li></ul>\n";
-        $this->content.="<p>Répartition des tâches : nous nous sommes répartis les tâches surtout au sein du model. Nous avons ainsi globalement fait la vue et le controller ensemble.</p>\n";
-        $this->content.="<p>WILLENBUCHER Gurvan s'est occupé de la création d'objets et de saisir les URL pour la vue, ainsi que le CSS.</p>\n";
-        $this->content.="<p>VALLÉE Mathieu s'est occupé de la partie authentification des comptes et création, et aussi la gestion de la base de donnée.</p>\n";
-        $this->content.="<p>Pour ce qui est des principaux choix en matière de design, nous avons suivi l'ordre des TP des séances 12 à 17. Nous avons ainsi une structure MVCR comme demandée dans l'énoncé.</p>\n";
-        $this->content.="<p>Le model représente toutes les données du site, intéractions avec la base de donnée comprises, la vue va afficher, sans modifier le model toutes les pages, le controller va nous permettre d'intéragir entre le model et la vue et le routeur nous permet de gérer les URL, créer la vue et le controller ainsi qu'à gérer les droits des utilisateurs.</p>\n";
-        $this->content.="<p>Note : nous avions commencé à implémenter le responsive, que nous avons abandonné depuis pour un autre complément. Ainsi nous avions surement laissé des traces.</p>\n";
     }
 
     // Redirection vers une autre page après avoir créé un objet.

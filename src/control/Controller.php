@@ -74,7 +74,7 @@ class Controller {
             $k = $kanbanBuilder->createKanban();
 
             $id = $this->kanbanDTB->create($k);
-            
+
             // Si une image a été envoyée avec, on vérifie que celle-ci est valide, on la stocke dans le dossier upload et on l'ajoute à la base de données.
             if(key_exists('image', $_FILES)) {
                 if ($_FILES['image']['error'] == 0) {
@@ -142,15 +142,28 @@ class Controller {
 
         // Ouvre la page de modification avec les champs de base.
         else {
-            $a = $this->kanbanDTB->read($id);
-            $data = array('name' => $a->getName(), 'region' => $a->getRegion(), 'year' => $a->getYear());
+            $k = $this->kanbanDTB->read($id);
+            if($k->isPublic() === true) {
+                $public = 0;
+            }
+            else {
+                $public = 1;
+            }
+            $data = array('name' => $k->getName(), 'desc' => $k->getDesc(), 'public' => $public);
             $this->view->makeKanbanUpdatePage($id, new KanbanBuilder($data));
         }
     }
 
     // Fonction qui envoie la modification. Ce sont les mêmes vérifications que la création d'un nouveau kanban.
     public function updatedKanban(array $data, $id) {
+        if($data['public'] === "on") {
+            $data['public'] = 0;
+        }
+        else {
+            $data['public'] = 1;
+        }
         $kanbanBuilder = new KanbanBuilder($data);
+
         $image = null;
         $error = false;
         if($kanbanBuilder->isValid()) {
@@ -173,8 +186,9 @@ class Controller {
             }
 
             if(!$error) {
+                var_export($kanbanBuilder->createKanban());
                 unset($_SESSION['currentUpdateKanban']);
-                $this->kanbanDTB->update($id, $kanbanBuilder->createKanban(), $image);
+                $this->kanbanDTB->updateKanbanInfo($id, $kanbanBuilder->createKanban(), $image);
                 $this->view->displayKanbanUpdatedSuccess($id);
             }
         }
