@@ -1,3 +1,14 @@
+function addTask(idCol) {
+  var idHTML = "colonne-" + idCol;
+  var descTache = prompt("Description de la tâche :");
+  var taskElement = document.createElement("div");
+
+  taskElement.classList.add("tache");
+  taskElement.setAttribute('draggable', true);
+  taskElement.innerText = descTache;
+  document.getElementById(idHTML).appendChild(taskElement);
+}
+
 function dragTasks() {
   var kanban = document.querySelector('.kanban');
   var tasks = document.querySelectorAll('.tache');

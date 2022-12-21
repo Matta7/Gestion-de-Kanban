@@ -64,6 +64,7 @@ class View {
         foreach($kanban->getColumns() as $c) {
             $this->content .= "<div id=\"colonne-" . $c->getId() . "\" class=\"colonne\">\n";
             $this->content .= "<h2 class=\"nom-colonne\">" . $c->getName() . "</h2>\n";
+            $this->content .= "<input class\"ajoutTache\" type='button' value='Ajouter une tâche' onclick='addTask(" . $c->getId() . ");'>";
             foreach($c->getTasks() as $t) {
                 $this->content .= "<div id=\"tache-" . $t->getId() . "\" class=\"tache\" draggable=\"true\">" . $t->getDesc() . "</div>\n";
             }

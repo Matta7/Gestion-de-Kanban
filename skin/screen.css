@@ -7,7 +7,12 @@
     border: 1px solid #ccc;
     padding: 10px;
 }
-  
+
+.ajoutTache {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
 .tache {
     background-color: #f2f2f2;
     border: 1px solid #ccc;
