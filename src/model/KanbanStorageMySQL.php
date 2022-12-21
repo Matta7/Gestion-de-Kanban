@@ -166,7 +166,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
     // Permet d'avoir la liste de tous les objets commençant par $search.
     public function research($search) {
-        /*$requete = "SELECT * FROM cheese WHERE name like :search";
+        $requete = "SELECT * FROM kanban WHERE nameKanban like :search";
         $stmt = $this->db->prepare($requete);
         $data = array(':search' => "$search%");
         $stmt->execute($data);
@@ -175,10 +175,24 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
         $tabRes = array();
         foreach($resultatRequete as $key => $value) {
-            $a = new Cheese($value['name'], $value['region'], $value['year'], $value['creator']);
-            $tabRes[$value['id']] = $a;
+            // On prend aussi les membres
+            $requete = "SELECT * FROM membres WHERE idKanban = :id";
+            $stmt = $this->db->prepare($requete);
+            $data = array(':id' => $value['idKanban']);
+            $stmt->execute($data);
+
+            $resultatRequeteM = $stmt->fetchAll();
+            $membres = null;
+            $i = 0;
+            foreach($resultatRequeteM as $keyM => $valueM){
+                $membres[$i] = $valueM['login'];
+                $i++;
+            }
+
+            $k = new Kanban($value['nameKanban'], $value['descKanban'], $value['public'], $value['creator'], $membres);
+            $tabRes[$value['idKanban']] = $k;
         }
-        return $tabRes;*/
+        return $tabRes;
     }
 
     // Fonction pour ajouter une image appelée dans la création d'un nouvel fromage ou dans la modification d'un fromage.
