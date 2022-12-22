@@ -199,13 +199,13 @@ class Router {
 
         else {
             if ($_SESSION['user']->getStatus() === "admin") {
-                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation');
+                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'function');
             }
             else {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
                     if ($_SESSION['user']->getLogin() === $kanbanDTB->read($_GET['id'])->getCreator()) {
-                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'function'));
+                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'function'));
                     }
                     else if (in_array($_SESSION['user']->getLogin(), $kanbanDTB->read($_GET['id'])->getMembers())) {
                         $accessTab = array_merge($accessTab, array('function'));
