@@ -219,7 +219,7 @@ class Controller {
 
 
     public function addMember($id) {
-        //$this->view
+        $this->view->makeAddMemberPage($id);
     }
 
 

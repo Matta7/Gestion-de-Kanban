@@ -257,6 +257,10 @@ class Router {
         return "index.php?action=ajouterMembre&id=$id";
     }
 
+    /*public function getAddedMemberURL($id) {
+        return
+    }*/
+
     // Page pour la fonction de recherche d'un objet.
     public function getKanbanResearchURL() {
         return "index.php?liste=rechercher";

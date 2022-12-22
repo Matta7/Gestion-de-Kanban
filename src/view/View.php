@@ -240,6 +240,15 @@ class View {
         </form>\n";
     }
 
+    // Page d'ajout de membre.
+    public function makeAddMemberPage() {
+        $this->title = 'Ajout de membre';
+        $this->content = "<form action='" . $this->router->getAddedMemberURL() . "' method='POST'>\n
+        <p>Login du membre à ajouter : <input type='text' name='member'/></p>\n
+        <p><input type='submit' value='Ajouter un membre'></p>\n
+        </form>\n";
+    }
+
     // Page "à propos".
     public function makeAProposPage(){
         $this->title = 'À propos';
