@@ -44,7 +44,7 @@ function addTask(idCol) {
   addtaskXHR.setRequestHeader("Content-Type", "text/plain");
   var req = "col=" + idCol +"\n";
   req += "taskName="+descTache+"\n";
-  xhr.send(req);
+  addtaskXHR.send(req);
 }
 
 function dragTasks() {
