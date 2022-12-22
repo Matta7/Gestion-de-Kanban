@@ -301,4 +301,8 @@ class View {
     public function displayKanbanRegistrationFailure() {
         $this->router->POSTredirect($this->router->getRegistrationURL(), "Un champ est invalide.");
     }
+
+    public function displayAddTaskFailure($id) {
+        $this->router->POSTredirect("?id=$id", "La tâche n'a pas pu être créée.");
+    }
 }

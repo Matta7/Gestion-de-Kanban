@@ -199,6 +199,26 @@ class Controller {
         }
     }
 
+
+    public function addTask($data) {
+        var_dump($data);
+        echo $data;
+        if($data['descTache'] === strip_tags($data['descTache'])) {
+            var_dump($data);
+        }
+
+        else {
+            $this->view->displayAddTaskFailure(1);
+        }
+        return 0;
+    }
+
+    
+    public function moveTask($data) {
+
+    }
+
+
     // Fonction pour la recherche d'objet.
     public function research($data) {
         unset($_SESSION['search']);

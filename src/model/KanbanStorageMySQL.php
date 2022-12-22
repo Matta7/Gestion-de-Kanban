@@ -164,6 +164,30 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         return ($this->db->query($requete)->fetch())['MAX(idCol)'];
     }
 
+    public function addTask($task) {
+        // On bouge tout apres en avant pour faire de la place
+        $requete = "INSERT INTO colonnes(nameCol, orderCol, kanban) VALUES (:name, :pos, :id)";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':pos' => $pos,
+            ':id' => $id,
+            ':name' => $colName
+        );
+
+
+        $requete = "INSERT INTO colonnes(nameCol, orderCol, kanban) VALUES (:name, :pos, :id)";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':pos' => $pos,
+            ':id' => $id,
+            ':name' => $colName
+        );
+
+        $stmt->execute($data);
+
+        $requete = "SELECT MAX(idCol) FROM colonnes";
+        return ($this->db->query($requete)->fetch())['MAX(idCol)'];
+    }
+
+
     // Permet d'avoir la liste de tous les objets commençant par $search.
     public function research($search) {
         $requete = "SELECT * FROM kanban WHERE nameKanban like :search";

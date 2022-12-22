@@ -109,13 +109,35 @@ class Router {
 
                 // Page de validation de la modification d'un kanban.
                 else if($_GET['action'] === 'sauverModification'&& in_array('sauverModification', $accessTab)) {
-                    $controller->updatedKanban($_POST,$_GET['id']);
+                    $controller->updatedKanban($_POST, $_GET['id']);
                 }
 
                 // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
                 else {
                     $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
                 }
+            }
+
+            
+
+            // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
+            else {
+                $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
+            }
+        }
+
+        // Si une fonction javascript est exécutée
+        else if(key_exists('function', $_GET)) {
+
+            // Si on veut ajouter une tâche
+            if($_GET['function'] === 'addTask') {
+                //echo $controller->addTask($_POST);
+                echo 1;
+                echo ';';
+            }
+
+            else if($_GET['function'] === 'dragTasks') {
+                echo $controller->moveTask($_POST);
             }
 
             // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
