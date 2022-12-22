@@ -65,7 +65,13 @@ class AccountStorageMySQL implements AccountStorage {
     }
 
     public function getAccount($login) {
-
+        $requete = "SELECT * FROM accounts WHERE login = :login";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':login' => $login);
+        $stmt->execute($data);
+        
+        $res = $stmt->fetch();
+        return new Account($res['name'], $res['login'], $res['password'], $res['status']);
     }
 
     public function getAllAccounts() {

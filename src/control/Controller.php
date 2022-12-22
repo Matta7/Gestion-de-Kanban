@@ -224,7 +224,16 @@ class Controller {
     }
 
     public function addMemberConfirmation($data, $id) {
-        //if;
+        $a = $this->authenticationManager->getAccount($data['login']);
+        $k = $this->kanbanDTB->read($id);
+        $members = $k->getMembers();
+        if($a->getLogin() === NULL || in_array($data['login'], $members) || $data['login'] === $k->getCreator()) {
+            $this->view->displayAddMemberConfirmationFailure($id);
+        }
+        else {
+            $this->kanbanDTB->addMember($id, $data['login']);
+            $this->view->displayAddMemberConfirmationSuccess($id);
+        }
     }
 
 

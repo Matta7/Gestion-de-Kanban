@@ -261,7 +261,7 @@ class Router {
     public function getKanbanAddMemberURL($id) {
         return "index.php?action=ajouterMembre&id=$id";
     }
-
+    
     public function getAddMemberConfirmationURL($id) {
         return "index.php?action=ajouterMembreConfirmation&id=$id";
     }
