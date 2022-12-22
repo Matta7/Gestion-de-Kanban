@@ -39,6 +39,10 @@ class AuthenticationManager {
         return $_SESSION['user']->getName();
     }
 
+    public function getUserLogin() {
+        return $_SESSION['user']->getLogin();
+    }
+
     // Fonction qui déconnecte l'utilisateur.
     public function disconnectUser() {
         unset($_SESSION['user']);

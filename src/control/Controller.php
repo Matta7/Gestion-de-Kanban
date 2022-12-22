@@ -217,11 +217,12 @@ class Controller {
 
 
 
-
+    // Fonction pour ajouter un membre.
     public function addMember($id) {
         $this->view->makeAddMemberPage($id);
     }
 
+    // Fonction pour la confirmation de l'ajout d'un membre.
     public function addMemberConfirmation($data, $id) {
         $a = $this->authenticationManager->getAccount($data['login']);
         $k = $this->kanbanDTB->read($id);
@@ -233,6 +234,15 @@ class Controller {
             $this->kanbanDTB->addMember($id, $data['login']);
             $this->view->displayAddMemberConfirmationSuccess($id);
         }
+    }
+
+
+    public function deleteMember($id) {
+        $this->view->makeDeleteMemberPage($id);
+    }
+
+    public function deleteMemberConfirmation($id) {
+        $this->kanbanDTB->removeMember($id, $login);
     }
 
 

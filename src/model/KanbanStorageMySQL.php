@@ -235,7 +235,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         $stmt->execute($data);
     }
 
-    public function RemoveMember($idKanban, $login){
+    public function removeMember($idKanban, $login){
         $requete = "DELETE FROM membres WHERE idKanban = :idKanban AND login = :login)";
         $stmt = $this->db->prepare($requete);
         $data = array(':idKanban' => $idKanban,
