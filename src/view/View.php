@@ -261,6 +261,15 @@ class View {
         }
     }
 
+    // Page affectation.
+    public function makeAffectationPage($id, $idTache, $members) {
+        $this->title = "Affectation d\'une tâche";
+        $this->content = "";
+        for($i=0; $i < count($members); $i++) {
+            $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getAffectationConfirmationURL($id, $idTache, $members[$i]) . "'\">Affecter " . $members[$i] . "</button>\n";
+        }
+    }
+
     // Page "à propos".
     public function makeAProposPage(){
         $this->title = 'À propos';
@@ -344,5 +353,9 @@ class View {
 
     public function displayDeleteMemberConfirmationSuccess($id) {
         $this->router->POSTredirect("?id=$id", "Le membre a bien été supprimé du Kanban.");
+    }
+
+    public function displayAffectationConfirmationSuccess($id) {
+        $this->router->POSTredirect("?id=$id", "La tâche a été affectée avec succès");
     }
 }

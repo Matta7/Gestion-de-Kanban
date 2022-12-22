@@ -245,6 +245,14 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         );
         $stmt->execute($data);
     }
+
+    public function affect($idTache, $login) {
+        $requeteAlterTask = "UPDATE taches t SET affectation = :login WHERE idTache = :id";
+        $stmt = $this->db->prepare($requeteAlterTask);
+        $data = array(':login' => $login, ':id' => $idTache);
+        $stmt->execute($data);
+    }
+
     // Fonction pour ajouter une image.
     public function addImage($id, $image) {
         /*$requete = "UPDATE kanban SET image = :image WHERE kanban . id = :id";

@@ -55,7 +55,12 @@ class PrivateView extends View {
                  $this->content .= "<input class\"ajoutTache\" type='button' value='Ajouter une tâche' onclick='addTask(" . $c->getId() . ");'>";
             }
             foreach($c->getTasks() as $t) {
-                $this->content .= "<div id=\"tache-" . $t->getId() . "\" class=\"tache\" draggable=\"true\">" . $t->getDesc() . "</div>\n";
+                $this->content .= "<div id=\"tache-" . $t->getId() . "\" class=\"tache\" draggable=\"true\"><p>" . $t->getDesc() . '</p>';
+                if($t->getAffectation() != NULL) {
+                    $this->content .= '<p>Tâche affectée à : ' . $t->getAffectation() . '</p>';
+                }
+                $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getAffectationURL($id, $t->getId()) . "'\">Affecter</button>\n 
+                </div>\n";
             }
             $this->content .= "</div>\n";
         }

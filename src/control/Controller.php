@@ -236,18 +236,29 @@ class Controller {
         }
     }
 
-
+    // Fonction pour supprimer un membre.
     public function deleteMember($id) {
         $members = $this->kanbanDTB->read($id)->getMembers();
-        var_dump($members);
         $this->view->makeDeleteMemberPage($id, $members);
     }
     
+    // Fonction pour la confirmation de la suppression d'un membre.
     public function deleteMemberConfirmation($id, $login) {
         $this->kanbanDTB->removeMember($id, $login);
-        var_dump($login);
-        var_dump($id);
         $this->view->displayDeleteMemberConfirmationSuccess($id);
+    }
+
+
+    public function affect($data) {
+        $k = $this->kanbanDTB->read($data['id']);
+        $members = $k->getMembers();
+        array_push($members, $k->getCreator());
+        $this->view->makeAffectationPage($data['id'], $data['idTache'], $members);
+    }
+
+    public function affectConfirmation($data) {
+        $this->kanbanDTB->affect($data['idTache'], $data['login']);
+        $this->view->displayAffectationConfirmationSuccess($data['id']);
     }
 
 

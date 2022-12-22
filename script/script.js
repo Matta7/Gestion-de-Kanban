@@ -34,14 +34,13 @@ function addTask(idCol) {
   var idHTML = "colonne-" + idCol;
   var descTache = prompt("Description de la tâche :");
   var taskElement = document.createElement("div");
+  var kanban = document.querySelector('.kanban');
+  var idKanban = kanban.id.substring(7);
 
   taskElement.classList.add("tache");
   taskElement.setAttribute('draggable', true);
-  taskElement.innerText = descTache;
+  taskElement.innerText = descTache; // onclick="window.location.href = 'index.php?action=affectation&id=15&idTache=35'"
   document.getElementById(idHTML).appendChild(taskElement);
-
-  var kanban = document.querySelector('.kanban');
-  var idKanban = kanban.id.substring(7);
 
   //Sending info to server
   addtaskXHR.open("GET", "index.php?function=addTask&idCol=" + idCol + "&descTache=" + descTache + "&id=" + idKanban, false);
@@ -53,6 +52,8 @@ function addTask(idCol) {
   if(addtaskXHR.status == 200) {
     var response = addtaskXHR.responseText;
     taskElement.id = "tache-" + response;
+    taskElement.innerHTML += "<button onclick=\"window.location.href = 'index.php?action=affectation&id=" + idKanban + "&idTache=" + response + "'\">Affecter</button>"
+
 
     taskElement.addEventListener('dragstart', function(e) {
       e.dataTransfer.setData("text/plain", this.id);

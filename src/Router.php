@@ -132,6 +132,16 @@ class Router {
                     $controller->deleteMemberConfirmation($_GET['id'], $_GET['login']);
                 }
 
+                // Page d'affectation d'une tâche.
+                else if($_GET['action'] === 'affectation' && in_array('affectation', $accessTab)) {
+                    $controller->affect($_GET);
+                }
+
+                // Page de confirmation d'affectation d'une tâche.
+                else if($_GET['action'] === 'affectationConfirmation' && in_array('affectationConfirmation', $accessTab)) {
+                    $controller->affectConfirmation($_GET);
+                }
+
 
                 // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
                 else {
@@ -210,16 +220,16 @@ class Router {
 
         else {
             if ($_SESSION['user']->getStatus() === "admin") {
-                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function');
+                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function', 'affectation', 'affectationConfirmation');
             }
             else {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
                     if ($_SESSION['user']->getLogin() === $kanbanDTB->read($_GET['id'])->getCreator()) {
-                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function'));
+                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function', 'affectation', 'affectationConfirmation'));
                     }
                     else if (in_array($_SESSION['user']->getLogin(), $kanbanDTB->read($_GET['id'])->getMembers())) {
-                        $accessTab = array_merge($accessTab, array('function'));
+                        $accessTab = array_merge($accessTab, array('function', 'affectation', 'affectationConfirmation'));
                     }
                 }
                 return $accessTab;
@@ -327,6 +337,14 @@ class Router {
     // Fonction de pagination de la liste des objets.
     public function getPageURL($page) {
         return "index.php?liste=$page";
+    }
+
+    public function getAffectationURL($id, $taskId) {
+        return "index.php?action=affectation&id=$id&idTache=$taskId";
+    }
+
+    public function getAffectationConfirmationURL($id, $taskId, $login) {
+        return "index.php?action=affectationConfirmation&id=$id&idTache=$taskId&login=$login";
     }
 
     
