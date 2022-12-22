@@ -180,15 +180,10 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
     // Fonction pour bouger une tâche d'une colonne à une autre.
     public function moveTask($idCol, $idTache) {
-        $requeteGetTask = "SELECT * FROM taches WHERE idTache = :id";
-        $stmt = $this->db->prepare($requeteGetTask);
-        $data = array(':id' => $idTache);
+        $requeteAlterTask = "UPDATE taches t SET idCol = :colId WHERE idTache = :id";
+        $stmt = $this->db->prepare($requeteAlterTask);
+        $data = array(':colId' => $idCol, ':id' => $idTache);
         $stmt->execute($data);
-        $resultatRequeteGetTask = $stmt->fetch();
-
-        $this->deleteTask($idTache);
-
-        $this->addTask($idCol, $resultatRequeteGetTask['descTache']);
     }
 
     // Fonction pour supprimer une tâche.
