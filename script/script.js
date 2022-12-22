@@ -1,3 +1,34 @@
+
+function createXHRObject(){
+  if(window.XMLHttpRequest){
+    return new XMLHttpRequest();
+  }
+  if(window.ActiveXObject){
+    var names = [
+      "Msxml2.XMLHTTP.6.0" ,
+      "Msxml2.XMLHTTP.3.0" ,
+      "Msxml2.XMLHTTP" ,
+      "Microsoft.XMLHTTP"
+    ];
+    for(var i in names) {
+      try {
+        return new ActiveXObject(names[i]);
+      } catch(e){}
+    }
+  }
+  return null; // not supported
+}
+
+var addtaskXHR = createXHRObject();
+request.onreadystatechange = function(){
+  if(addtaskXHR.readyState == 4)
+  if(addtaskXHR.status == 200){
+    // process here
+  } else {
+    alert("Erreur : "+request.statusText);
+  }
+}
+
 function addTask(idCol) {
   var idHTML = "colonne-" + idCol;
   var descTache = prompt("Description de la tâche :");
@@ -7,6 +38,13 @@ function addTask(idCol) {
   taskElement.setAttribute('draggable', true);
   taskElement.innerText = descTache;
   document.getElementById(idHTML).appendChild(taskElement);
+
+  //Sending info to server
+  addtaskXHR.open("POST", "index.php?function=addTask", true);
+  addtaskXHR.setRequestHeader("Content-Type", "text/plain");
+  var req = "col=" + idCol +"\n";
+  req += "taskName="+descTache+"\n";
+  xhr.send(req);
 }
 
 function dragTasks() {
