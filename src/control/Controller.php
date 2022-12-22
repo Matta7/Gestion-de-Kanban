@@ -1,7 +1,6 @@
 <?php
 
 require_once('view/View.php');
-require_once("view/PrivateView.php");
 require_once('model/Kanban.php');
 require_once('model/KanbanBuilder.php');
 require_once('control/AuthenticationManager.php');
@@ -239,11 +238,16 @@ class Controller {
 
 
     public function deleteMember($id) {
-        $this->view->makeDeleteMemberPage($id);
+        $members = $this->kanbanDTB->read($id)->getMembers();
+        var_dump($members);
+        $this->view->makeDeleteMemberPage($id, $members);
     }
-
-    public function deleteMemberConfirmation($id) {
+    
+    public function deleteMemberConfirmation($id, $login) {
         $this->kanbanDTB->removeMember($id, $login);
+        var_dump($login);
+        var_dump($id);
+        $this->view->displayDeleteMemberConfirmationSuccess($id);
     }
 
 

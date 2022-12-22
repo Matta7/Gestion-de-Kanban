@@ -32,13 +32,19 @@ class PrivateView extends View {
     public function makeKanbanPage($kanban, $id = null) {
         $this->title = $kanban->getName();
         $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
+        
         $this->content .= "<p> Membres : ";
-        foreach($kanban->getMembers() as $member) {
-            $this->content .= $member + ", ";
+        $members = $kanban->getMembers();
+        for($i=0; $i < count($members); $i++) {
+            if($i != 0) {
+                $this->content .= ", ";
+            }
+            $this->content .= $members[$i];
         }
         $this->content .= "</p>\n";
         if($kanban->getCreator() === $this->account->getLogin()){
             $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAddMemberURL($id) . "';\">Ajouter un membre</button>\n";
+            $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanDeleteMemberURL($id) . "';\">Supprimer un membre</button>\n";
         }
 
         $this->content .= "<div class=\"kanban\" id=\"kanban-" . $id . "\">\n";

@@ -122,6 +122,17 @@ class Router {
                     $controller->addMemberConfirmation($_POST, $_GET['id']);
                 }
 
+                // Page de suppression d'un membre. 
+                else if($_GET['action'] === 'supprimerMembre' && in_array('supprimerMembre', $accessTab)) {
+                    $controller->deleteMember($_GET['id']);
+                }
+
+                // Page de confirmation suppression d'un membre. 
+                else if($_GET['action'] === 'supprimerMembreConfirmation' && in_array('supprimerMembreConfirmation', $accessTab)) {
+                    $controller->deleteMemberConfirmation($_GET['id'], $_GET['login']);
+                }
+
+
                 // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
                 else {
                     $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
@@ -199,13 +210,13 @@ class Router {
 
         else {
             if ($_SESSION['user']->getStatus() === "admin") {
-                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'function');
+                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function');
             }
             else {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
                     if ($_SESSION['user']->getLogin() === $kanbanDTB->read($_GET['id'])->getCreator()) {
-                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'function'));
+                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function'));
                     }
                     else if (in_array($_SESSION['user']->getLogin(), $kanbanDTB->read($_GET['id'])->getMembers())) {
                         $accessTab = array_merge($accessTab, array('function'));
@@ -258,12 +269,24 @@ class Router {
         return "index.php?action=sauverModification&id=$id";
     }
 
+    // Page d'ajout de membre.
     public function getKanbanAddMemberURL($id) {
         return "index.php?action=ajouterMembre&id=$id";
     }
     
+    // Page de confirmation d'ajout de membre.
     public function getAddMemberConfirmationURL($id) {
         return "index.php?action=ajouterMembreConfirmation&id=$id";
+    }
+
+    // Page de suppression de membre.
+    public function getKanbanDeleteMemberURL($id) {
+        return "index.php?action=supprimerMembre&id=$id";
+    }
+
+    // Page de confirmation de suppression de membre.
+    public function getDeleteMemberConfirmationURL($id, $login) {
+        return "index.php?action=supprimerMembreConfirmation&id=$id&login=$login";
     }
 
     // Page pour la fonction de recherche d'un objet.

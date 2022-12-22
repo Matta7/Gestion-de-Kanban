@@ -226,6 +226,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         return $tabRes;
     }
 
+    // Permet d'ajouter un membre.
     public function addMember($idKanban, $login){
         $requete = "INSERT INTO membres (idKanban, login) VALUES (:idKanban, :login)";
         $stmt = $this->db->prepare($requete);
@@ -235,8 +236,9 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         $stmt->execute($data);
     }
 
+    // Permet de supprimer un membre.
     public function removeMember($idKanban, $login){
-        $requete = "DELETE FROM membres WHERE idKanban = :idKanban AND login = :login)";
+        $requete = "DELETE FROM membres WHERE idKanban = :idKanban AND login = :login";
         $stmt = $this->db->prepare($requete);
         $data = array(':idKanban' => $idKanban,
             ':login' => $login

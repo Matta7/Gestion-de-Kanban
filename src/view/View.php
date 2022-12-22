@@ -70,7 +70,8 @@ class View {
             $this->content .= $members[$i];
         }
         $this->content .= ".</p>\n";
-        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAddMemberURL($id) . "';\">Ajouter un membre</button>\n";
+        /*$this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAddMemberURL($id) . "';\">Ajouter un membre</button>\n";
+        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanDeleteMemberURL($id) . "';\">Supprimer un membre</button>\n";*/
 
         $this->content .= "<div class=\"kanban\" id=\"kanban-" . $id . "\">\n";
         foreach($kanban->getColumns() as $c) {
@@ -251,6 +252,15 @@ class View {
         </form>\n";
     }
 
+    // Page de suppression d'un membre.
+    public function makeDeleteMemberPage($id, $members) {
+        $this->title = 'Suppression de membre';
+        $this->content = "";
+        for($i=0; $i < count($members); $i++) {
+            $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getDeleteMemberConfirmationURL($id, $members[$i]) . "'\">Supprimer " . $members[$i] . "</button>\n";
+        }
+    }
+
     // Page "à propos".
     public function makeAProposPage(){
         $this->title = 'À propos';
@@ -330,5 +340,9 @@ class View {
 
     public function displayAddMemberConfirmationFailure($id) {
         $this->router->POSTredirect("?id=$id", "Le membre n'a pas pu être ajouté.");
+    }
+
+    public function displayDeleteMemberConfirmationSuccess($id) {
+        $this->router->POSTredirect("?id=$id", "Le membre a bien été supprimé du Kanban.");
     }
 }
