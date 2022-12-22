@@ -206,7 +206,7 @@ class Controller {
         }
 
         else {
-            $this->view->displayAddTaskFailure(1);
+            $this->view->displayAddTaskFailure($data['id']);
         }
     }
 
@@ -220,6 +220,10 @@ class Controller {
 
     public function addMember($id) {
         $this->view->makeAddMemberPage($id);
+    }
+
+    public function addMemberConfirmation($data, $id) {
+        //if;
     }
 
 

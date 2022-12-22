@@ -117,6 +117,11 @@ class Router {
                     $controller->addMember($_GET['id']);
                 }
 
+                // Page de confirmation d'ajout d'un membre.
+                else if($_GET['action'] === 'ajouterMembreConfirmation' && in_array('ajouterMembreConfirmation', $accessTab)) {
+                    $controller->addMemberConfirmation($_POST, $_GET['id']);
+                }
+
                 // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
                 else {
                     $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
@@ -257,9 +262,9 @@ class Router {
         return "index.php?action=ajouterMembre&id=$id";
     }
 
-    /*public function getAddedMemberURL($id) {
-        return
-    }*/
+    public function getAddMemberConfirmationURL($id) {
+        return "index.php?action=ajouterMembreConfirmation&id=$id";
+    }
 
     // Page pour la fonction de recherche d'un objet.
     public function getKanbanResearchURL() {
