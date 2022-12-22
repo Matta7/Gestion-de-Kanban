@@ -1,6 +1,7 @@
 <?php
 
 require_once('view/View.php');
+require_once("view/PrivateView.php");
 require_once('model/Kanban.php');
 require_once('model/KanbanBuilder.php');
 require_once('control/AuthenticationManager.php');
