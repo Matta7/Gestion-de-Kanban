@@ -132,7 +132,6 @@ class Router {
             // Si on veut ajouter une tâche
             if($_GET['function'] === 'addTask') {
                 echo $controller->addTask($_GET);
-                return;
             }
 
             else if($_GET['function'] === 'dragTasks') {
@@ -143,6 +142,7 @@ class Router {
             else {
                 $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
             }
+            return;
         }
 
         // Affiche la page.
