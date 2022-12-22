@@ -199,7 +199,7 @@ class Controller {
         }
     }
 
-
+    // Ajouter une tâche.
     public function addTask($data) {
         if($data['descTache'] === strip_tags($data['descTache'])) {
             return $this->kanbanDTB->addTask($data['idCol'], $data['descTache']);
@@ -210,13 +210,20 @@ class Controller {
         }
     }
 
-    
+    // Bouger une tâche d'une colonne à une autre.
     public function moveTask($data) {
-        $this->kanbanDTB->moveTask($data['idCol'], $data['descTache']);
+        $this->kanbanDTB->moveTask($data['idCol'], $data['idTache']);
     }
 
 
-    // Fonction pour la recherche d'objet.
+
+
+    public function addMember($id) {
+        //$this->view
+    }
+
+
+    // Fonction pour la recherche dans la liste de Kanban.
     public function research($data) {
         unset($_SESSION['search']);
         if($data['search'] === strip_tags($data['search']) && $data['search'] !== '') {

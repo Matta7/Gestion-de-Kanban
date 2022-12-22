@@ -180,12 +180,20 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
     // Fonction pour bouger une tâche d'une colonne à une autre.
     public function moveTask($idCol, $idTache) {
+        $requeteGetTask = "SELECT * FROM taches WHERE idTache = :id";
+        $stmt = $this->db->prepare($requeteGetTask);
+        $data = array(':id' => $idTache);
+        $stmt->execute($data);
+        $resultatRequeteGetTask = $stmt->fetch();
 
+        $this->deleteTask($idTache);
+
+        $this->addTask($idCol, $resultatRequeteGetTask['descTache']);
     }
 
-
+    // Fonction pour supprimer une tâche.
     public function deleteTask($idTache) {
-        $requete = "DELETE FROM kanban WHERE idTache = :id";
+        $requete = "DELETE FROM taches WHERE idTache = :id";
         $stmt = $this->db->prepare($requete);
         $data = array(':id' => $idTache);
         $stmt->execute($data);
@@ -223,9 +231,9 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         return $tabRes;
     }
 
-    // Fonction pour ajouter une image appelée dans la création d'un nouvel fromage ou dans la modification d'un fromage.
+    // Fonction pour ajouter une image.
     public function addImage($id, $image) {
-        /*$requete = "UPDATE cheese SET image = :image WHERE cheese . id = :id";
+        /*$requete = "UPDATE kanban SET image = :image WHERE kanban . id = :id";
         $stmt = $this->db->prepare($requete);
         $data = array(':image' => '' . $id . '.' . str_replace('image/','',$image['type']),
             ':id' => $id

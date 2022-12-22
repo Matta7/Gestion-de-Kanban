@@ -112,6 +112,11 @@ class Router {
                     $controller->updatedKanban($_POST, $_GET['id']);
                 }
 
+                // Page d'ajout d'un membre.
+                else if($_GET['action'] === 'ajouterMembre'&& in_array('ajouterMembre', $accessTab)) {
+                    $controller->addMember($_GET['id']);
+                }
+
                 // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
                 else {
                     $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
@@ -127,22 +132,23 @@ class Router {
         }
 
         // Si une fonction javascript est exécutée
-        else if(key_exists('function', $_GET)) {
+        else if(key_exists('function', $_GET) && in_array('function', $accessTab)) {
 
             // Si on veut ajouter une tâche
             if($_GET['function'] === 'addTask') {
                 echo $controller->addTask($_GET);
+                return;
             }
 
             else if($_GET['function'] === 'dragTasks') {
-                $controller->moveTask($_POST);
+                $controller->moveTask($_GET);
+                return;
             }
 
             // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
             else {
                 $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
             }
-            return;
         }
 
         // Affiche la page.
@@ -194,7 +200,10 @@ class Router {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
                     if ($_SESSION['user']->getLogin() === $kanbanDTB->read($_GET['id'])->getCreator()) {
-                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation'));
+                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'function'));
+                    }
+                    else if (in_array($_SESSION['user']->getLogin(), $kanbanDTB->read($_GET['id'])->getMembers())) {
+                        $accessTab = array_merge($accessTab, array('function'));
                     }
                 }
                 return $accessTab;
@@ -242,6 +251,10 @@ class Router {
     // Page de validation de modification d'un kanban.
     public function getKanbanUpdatedURL($id) {
         return "index.php?action=sauverModification&id=$id";
+    }
+
+    public function getKanbanAddMemberURL($id) {
+        return "index.php?action=ajouterMembre&id=$id";
     }
 
     // Page pour la fonction de recherche d'un objet.

@@ -62,7 +62,7 @@ dragtaskXHR.onreadystatechange = function(){
   if(dragtaskXHR.readyState == 4)
   if(dragtaskXHR.status == 200){
     // process here
-    alert(dragtaskXHR.responseText);
+    console.log(dragtaskXHR.responseText);
   } else {
     alert("Erreur : "+dragtaskXHR.statusText);
   }
@@ -93,10 +93,10 @@ function dragTasks() {
       targetColumn.appendChild(taskElement);
     }
     // Sync with server
-    dragtaskXHR.open("POST", "index.php?function=dragTask", true);
+    dragtaskXHR.open("GET", "index.php?function=dragTasks&idCol=" + targetColumn.id.substring(8) + "&idTache=" + taskElement.id.substring(6), true);
     dragtaskXHR.setRequestHeader("Content-Type", "text/plain");
-    var req = "col=" + targetColumn.id.substring(8) +"\n";
-    req += "taskId="+taskElement.id.substring(6)+"\n";
-    dragtaskXHR.send(req);
+    /*var req = "col=" + targetColumn.id.substring(8) +"\n";
+    req += "taskId="+taskElement.id.substring(6)+"\n";*/
+    dragtaskXHR.send();
   });
 }
