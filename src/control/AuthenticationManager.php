@@ -48,4 +48,8 @@ class AuthenticationManager {
     public function registration($name, $login, $password) {
         return $this->accountDTB->registration($name, $login, $password);
     }
+
+    public function getAccount($login) {
+        return $this->accountDTB->getAccount($login);
+    }
 }
