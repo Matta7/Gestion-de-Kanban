@@ -23,7 +23,7 @@ var addtaskXHR = createXHRObject();
 addtaskXHR.onreadystatechange = function(){
   if(addtaskXHR.readyState == 4)
   if(addtaskXHR.status == 200){
-    // process here
+    // Do nothing
     alert(addtaskXHR.responseText);
   } else {
     alert("Erreur : "+addtaskXHR.statusText);
@@ -41,11 +41,12 @@ function addTask(idCol) {
   document.getElementById(idHTML).appendChild(taskElement);
 
   //Sending info to server
-  addtaskXHR.open("POST", "index.php?function=addTask", true);
+  addtaskXHR.open("POST", "index.php?function=addTask", false);
   addtaskXHR.setRequestHeader("Content-Type", "text/plain");
   var req = "col=" + idCol +"\n";
   req += "taskName="+descTache+"\n";
   addtaskXHR.send(req);
+  // process here
 }
 
 var dragtaskXHR = createXHRObject();
