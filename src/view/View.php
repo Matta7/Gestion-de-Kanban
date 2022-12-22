@@ -2,10 +2,10 @@
 
 class View {
 
-    private $title;
-    private $content;
+    protected $title;
+    protected $content;
     protected $router;
-    private $feedback;
+    protected $feedback;
 
     public function __construct($title, $content, $router, $feedback) {
         $this->title = $title; // Titre de la page
@@ -65,13 +65,10 @@ class View {
             $this->content .= $member + ", ";
         }
         $this->content .= "</p>\n";
-        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAddMemberURL($id) . "';\">Ajouter un membre</button>\n";
-
         $this->content .= "<div class=\"kanban\" id=\"kanban-" . $id . "\">\n";
         foreach($kanban->getColumns() as $c) {
             $this->content .= "<div id=\"colonne-" . $c->getId() . "\" class=\"colonne\">\n";
             $this->content .= "<h2 class=\"nom-colonne\">" . $c->getName() . "</h2>\n";
-            $this->content .= "<input class\"ajoutTache\" type='button' value='Ajouter une tâche' onclick='addTask(" . $c->getId() . ");'>";
             foreach($c->getTasks() as $t) {
                 $this->content .= "<div id=\"tache-" . $t->getId() . "\" class=\"tache\" draggable=\"true\">" . $t->getDesc() . "</div>\n";
             }
@@ -79,8 +76,6 @@ class View {
         }
         $this->content .= "</div>\n";
 
-        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanUpdateURL($id) . "';\">Modifier</button>\n";
-        $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getKanbanAskDeletionURL($id) . "';\">Supprimer</button>\n";
         //$this->content .= "<a href='" .  ."'> Modifier </a>\n";
         //$this->content .= "<a href='" . $this->router->getKanbanAskDeletionURL($id) ."'> Supprimer </a>\n";
         if($kanban->getImage() != null) {
