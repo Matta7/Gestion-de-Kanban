@@ -131,7 +131,7 @@ class Router {
 
             // Si on veut ajouter une tâche
             if($_GET['function'] === 'addTask') {
-                echo $controller->addTask($_POST);
+                echo $controller->addTask($_GET);
                 return;
             }
 
@@ -148,6 +148,7 @@ class Router {
         // Affiche la page.
         $view->render();
     }
+
 
     // Fonction qui créé la vue en fonction de si l'utilisateur est connecté ou non.
     public function creationView() {

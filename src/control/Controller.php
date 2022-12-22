@@ -201,9 +201,8 @@ class Controller {
 
 
     public function addTask($data) {
-        return $_POST;
         if($data['descTache'] === strip_tags($data['descTache'])) {
-            //var_dump($data);
+            return $this->kanbanDTB->addTask($data['idCol'], $data['descTache']);
         }
 
         else {

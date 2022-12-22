@@ -164,27 +164,17 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         return ($this->db->query($requete)->fetch())['MAX(idCol)'];
     }
 
-    public function addTask($task) {
+    public function addTask($idCol, $descTache) {
         // On bouge tout apres en avant pour faire de la place
-        $requete = "INSERT INTO tache (idCol, descTache, NULL, NULL) VALUES (:desc, :pos, :id)";
+        $requete = "INSERT INTO taches (idCol, descTache, affectation, dateLimite) VALUES (:idCol, :descTache, NULL, NULL)";
         $stmt = $this->db->prepare($requete);
-        $data = array(':pos' => $pos,
-            ':id' => $id,
-            ':name' => $colName
+        $data = array(':idCol' => $idCol,
+            ':descTache' => $descTache
         );
-
-
-        $requete = "INSERT INTO colonnes(nameCol, orderCol, kanban) VALUES (:name, :pos, :id)";
-        $stmt = $this->db->prepare($requete);
-        $data = array(':pos' => $pos,
-            ':id' => $id,
-            ':name' => $colName
-        );
-
         $stmt->execute($data);
 
-        $requete = "SELECT MAX(idCol) FROM colonnes";
-        return ($this->db->query($requete)->fetch())['MAX(idCol)'];
+        $requete = "SELECT MAX(idTache) FROM taches";
+        return $this->db->query($requete)->fetch()['MAX(idTache)'];
     }
 
 
