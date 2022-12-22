@@ -226,6 +226,23 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         return $tabRes;
     }
 
+    public function addMember($idKanban, $login){
+        $requete = "INSERT INTO membres (idKanban, login) VALUES (:idKanban, :login)";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':idKanban' => $idKanban,
+            ':login' => $login
+        );
+        $stmt->execute($data);
+    }
+
+    public function RemoveMember($idKanban, $login){
+        $requete = "DELETE FROM membres WHERE idKanban = :idKanban AND login = :login)";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':idKanban' => $idKanban,
+            ':login' => $login
+        );
+        $stmt->execute($data);
+    }
     // Fonction pour ajouter une image.
     public function addImage($id, $image) {
         /*$requete = "UPDATE kanban SET image = :image WHERE kanban . id = :id";
