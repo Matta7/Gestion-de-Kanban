@@ -20,12 +20,12 @@ function createXHRObject(){
 }
 
 var addtaskXHR = createXHRObject();
-request.onreadystatechange = function(){
+addtaskXHR.onreadystatechange = function(){
   if(addtaskXHR.readyState == 4)
   if(addtaskXHR.status == 200){
     // process here
   } else {
-    alert("Erreur : "+request.statusText);
+    alert("Erreur : "+addtaskXHR.statusText);
   }
 }
 
