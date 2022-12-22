@@ -60,7 +60,7 @@ class View {
     public function makeKanbanPage($kanban, $id = null) {
         $this->title = $kanban->getName();
         $this->content = "<h1>" . $kanban->getName() . "</h1>\n" . '<p>' . $kanban->getDesc() . "</p>\n<p> Créateur du kanban : " . $kanban->getCreator() . "</p>\n";
-        $this->content .= "<div class=\"kanban\">\n";
+        $this->content .= "<div class=\"kanban\" id=\"kanban-" . $id . "\">\n";
         foreach($kanban->getColumns() as $c) {
             $this->content .= "<div id=\"colonne-" . $c->getId() . "\" class=\"colonne\">\n";
             $this->content .= "<h2 class=\"nom-colonne\">" . $c->getName() . "</h2>\n";

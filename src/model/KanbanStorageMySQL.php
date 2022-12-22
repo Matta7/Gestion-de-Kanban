@@ -166,7 +166,7 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
     public function addTask($task) {
         // On bouge tout apres en avant pour faire de la place
-        $requete = "INSERT INTO colonnes(nameCol, orderCol, kanban) VALUES (:name, :pos, :id)";
+        $requete = "INSERT INTO tache (idCol, descTache, NULL, NULL) VALUES (:desc, :pos, :id)";
         $stmt = $this->db->prepare($requete);
         $data = array(':pos' => $pos,
             ':id' => $id,

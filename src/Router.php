@@ -131,9 +131,8 @@ class Router {
 
             // Si on veut ajouter une tâche
             if($_GET['function'] === 'addTask') {
-                //echo $controller->addTask($_POST);
-                echo 1;
-                echo ';';
+                echo $controller->addTask($_POST);
+                return;
             }
 
             else if($_GET['function'] === 'dragTasks') {

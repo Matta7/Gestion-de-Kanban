@@ -24,7 +24,7 @@ addtaskXHR.onreadystatechange = function(){
   if(addtaskXHR.readyState == 4)
   if(addtaskXHR.status == 200){
     // process here
-    alert(addtaskXHR.responseText);
+    console.log(addtaskXHR.responseText);
   } else {
     alert("Erreur : "+addtaskXHR.statusText);
   }
