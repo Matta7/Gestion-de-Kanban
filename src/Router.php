@@ -136,7 +136,7 @@ class Router {
             }
 
             else if($_GET['function'] === 'dragTasks') {
-                echo $controller->moveTask($_POST);
+                $controller->moveTask($_POST);
             }
 
             // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.

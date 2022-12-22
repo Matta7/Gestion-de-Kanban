@@ -47,6 +47,14 @@ function addTask(idCol) {
   req += "taskName="+descTache+"\n";
   addtaskXHR.send(req);
   // process here
+  if(addtaskXHR.status == 200) {
+    var response = addtaskXHR.responseText;
+    taskElement.id = "tache-" + response;
+
+    taskElement.addEventListener('dragstart', function(e) {
+      e.dataTransfer.setData("text/plain", this.id);
+    });
+  }
 }
 
 var dragtaskXHR = createXHRObject();

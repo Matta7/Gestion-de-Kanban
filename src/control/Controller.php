@@ -212,7 +212,7 @@ class Controller {
 
     
     public function moveTask($data) {
-
+        $this->kanbanDTB->moveTask($data['idCol'], $data['descTache']);
     }
 
 

@@ -161,9 +161,10 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
         $stmt->execute($data);
 
         $requete = "SELECT MAX(idCol) FROM colonnes";
-        return ($this->db->query($requete)->fetch())['MAX(idCol)'];
+        return $this->db->query($requete)->fetch()['MAX(idCol)'];
     }
 
+    // Requête pour ajouter une tâche.
     public function addTask($idCol, $descTache) {
         // On bouge tout apres en avant pour faire de la place
         $requete = "INSERT INTO taches (idCol, descTache, affectation, dateLimite) VALUES (:idCol, :descTache, NULL, NULL)";
@@ -175,6 +176,19 @@ class KanbanStorageMySQL /*implements KanbanStorage*/ {
 
         $requete = "SELECT MAX(idTache) FROM taches";
         return $this->db->query($requete)->fetch()['MAX(idTache)'];
+    }
+
+    // Fonction pour bouger une tâche d'une colonne à une autre.
+    public function moveTask($idCol, $idTache) {
+
+    }
+
+
+    public function deleteTask($idTache) {
+        $requete = "DELETE FROM kanban WHERE idTache = :id";
+        $stmt = $this->db->prepare($requete);
+        $data = array(':id' => $idTache);
+        $stmt->execute($data);
     }
 
 
