@@ -134,7 +134,12 @@ class View {
             $this->content .= "<nav>\n<ul>\n";
             for ($i = $firstObjet; $i < $firstObjet + $nbObjectPerPage; $i++) {
                 if(key_exists($i, $pagination)) {
-                    $this->content .= "<li><a href='" . $this->router->getKanbanURL($pagination[$i]) . "'>" . $kanbanTab[$pagination[$i]]->getName() . "</a></li>\n";
+                    if($kanbanTab[$pagination[$i]]->isPublic()) {
+                        $this->content .= "<li><a href='" . $this->router->getKanbanURL($pagination[$i]) . "'>" . $kanbanTab[$pagination[$i]]->getName() . "</a></li>\n";
+                    }
+                    else {
+                        $firstObjet++;
+                    }
                 }
             }
             $this->content .= "</ul>\n</nav>\n";

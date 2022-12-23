@@ -73,4 +73,39 @@ class PrivateView extends View {
             $this->content .= "<p><img src='upload/" . $kanban->getImage() . "' alt='" . $kanban->getName() . "'></p>\n";
         }
     }
+
+    // Fonction pour la pagination. Il y a ici 5 objets par pages.
+    public function pagination($kanbanTab, $page) {
+
+        $nbObjectPerPage = 5;
+        $pagination = array_keys($kanbanTab);
+        $nbObject = count($pagination);
+        $nbPages = ceil($nbObject / $nbObjectPerPage)+1;
+        $firstObjet = ($page * $nbObjectPerPage) - $nbObjectPerPage;
+
+        $error = false;
+        if($page >= $nbPages) {
+            $this->makeListPage($kanbanTab, $page-1);
+            $error = true;
+        }
+
+        if(!$error) {
+            $this->content .= "<nav>\n<ul>\n";
+            for ($i = $firstObjet; $i < $firstObjet + $nbObjectPerPage; $i++) {
+                if(key_exists($i, $pagination)) {
+                    if($kanbanTab[$pagination[$i]]->isPublic() || in_array($this->account->getLogin(), $kanbanTab[$pagination[$i]]->getMembers()) || $this->account->getStatus() === 'admin' || $this->account->getLogin() === $kanbanTab[$pagination[$i]]->getCreator()) {
+                        $this->content .= "<li><a href='" . $this->router->getKanbanURL($pagination[$i]) . "'>" . $kanbanTab[$pagination[$i]]->getName() . "</a></li>\n";
+                    }
+                    else {
+                        $firstObjet++;
+                    }
+                }
+            }
+            $this->content .= "</ul>\n</nav>\n";
+
+            for ($i = 1; $i < $nbPages; $i++) {
+                $this->content .= "<button onclick=\"window.location.href = '" . $this->router->getPageURL($i) . "';\">$i</button>\n";
+            }
+        }
+    }
 }

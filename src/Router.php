@@ -20,12 +20,6 @@ class Router {
         $accessTab = $this->creationAccessTab($kanbanDTB);
 
 
-        // Affiche les informations d'une page.
-        if(key_exists('id', $_GET)) {
-            $id = $_GET['id'];
-            $controller->showInformation($id);
-        }
-
         // Affiche la liste :
         if(key_exists('liste', $_GET)) {
 
@@ -89,7 +83,7 @@ class Router {
             }
 
             // Affiche en fonction de la liste des kanbans d'autres actions possibles :
-            else if(key_exists('id', $_GET)) {
+            else if(key_exists('id', $_GET) && in_array('id', $accessTab)) {
 
                 // Validation de la supression d'un kanban.
                 if ($_GET['action'] === 'supprimerConfirmation'&& in_array('supprimerConfirmation', $accessTab)) {
@@ -149,8 +143,6 @@ class Router {
                 }
             }
 
-            
-
             // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
             else {
                 $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
@@ -158,7 +150,7 @@ class Router {
         }
 
         // Si une fonction javascript est exécutée
-        else if(key_exists('function', $_GET) && in_array('function', $accessTab)) {
+        if(key_exists('function', $_GET) && in_array('function', $accessTab)) {
 
             // Si on veut ajouter une tâche
             if($_GET['function'] === 'addTask') {
@@ -172,6 +164,18 @@ class Router {
             }
 
             // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
+            else {
+                $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
+            }
+        }
+
+        // Affiche les informations d'une page.
+        if(key_exists('id', $_GET)) {
+            if(in_array('id', $accessTab)) {
+                $id = $_GET['id'];
+                $controller->showInformation($id);
+            }
+
             else {
                 $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
             }
@@ -216,20 +220,30 @@ class Router {
 
         if(!key_exists('user',$_SESSION)) {
             return array('aPropos', 'connexion', 'authentification', 'inscription', 'inscrit');
+            if(key_exists('id', $_GET)) {
+                $kanban = $kanbanDTB->read($_GET['id']);
+                if($kanban->isPublic()) {
+                    $accessTab = array_merge($accessTab, array('id'));
+                }
+            }
         }
 
         else {
             if ($_SESSION['user']->getStatus() === "admin") {
-                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function', 'affectation', 'affectationConfirmation');
+                return array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau', 'modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function', 'affectation', 'affectationConfirmation', 'id');
             }
             else {
                 $accessTab = array('aPropos', 'deconnexion', 'nouveau', 'sauverNouveau');
                 if(key_exists('id', $_GET)) {
-                    if ($_SESSION['user']->getLogin() === $kanbanDTB->read($_GET['id'])->getCreator()) {
-                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function', 'affectation', 'affectationConfirmation'));
+                    $kanban = $kanbanDTB->read($_GET['id']);
+                    if($_SESSION['user']->getLogin() === $kanban->getCreator()) {
+                        $accessTab = array_merge($accessTab, array('modification', 'sauverModification', 'supprimer', 'supprimerConfirmation', 'ajouterMembre', 'ajouterMembreConfirmation', 'supprimerMembre', 'supprimerMembreConfirmation', 'function', 'affectation', 'affectationConfirmation', 'id'));
                     }
-                    else if (in_array($_SESSION['user']->getLogin(), $kanbanDTB->read($_GET['id'])->getMembers())) {
-                        $accessTab = array_merge($accessTab, array('function', 'affectation', 'affectationConfirmation'));
+                    else if(in_array($_SESSION['user']->getLogin(), $kanban->getMembers())) {
+                        $accessTab = array_merge($accessTab, array('function', 'affectation', 'affectationConfirmation', 'id'));
+                    }
+                    else if($kanban->isPublic()) {
+                        $accessTab = array_merge($accessTab, array('id'));
                     }
                 }
                 return $accessTab;
