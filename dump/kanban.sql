@@ -22,7 +22,7 @@ CREATE TABLE kanban (
 
 
 INSERT INTO `kanban` (`nameKanban`, `descKanban`, `creator`, `public`) VALUES
-('k1', 'banan', 'admin', 0),
-('k2', 'poir', 'admin', 0),
-('k3', 'pom', 'admin', 1);
+('LW1', 'Projet Web à faire.', 'admin', 0),
+('Courses', "Mes courses que j ai à faire + quelques trucs.", 'projet', -1),
+('Kanban Privé', 'Kanban Privé', 'admin', -1);
 COMMIT;

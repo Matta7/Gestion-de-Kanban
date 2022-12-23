@@ -23,7 +23,10 @@ CREATE TABLE taches (
 
 
 INSERT INTO `taches` (`idCol`, `descTache`, `affectation`, `dateLimite`) VALUES
-(1, 'faire lw', NULL, NULL),
-(2, 'aller acheter des pates', NULL, NULL),
-(2, 'prendre une douche', NULL, NULL);
+(1, 'Faire la vue', 'admin', NULL),
+(2, 'Faire le routeur', 'admin', NULL),
+(1, 'Faire le controller', 'projet', NULL),
+(1, 'Faire le model', 'projet', NULL),
+(3, 'Acheter des pates', NULL, NULL),
+(5, 'Projet ne peut pas le voir', NULL, NULL);
 COMMIT;

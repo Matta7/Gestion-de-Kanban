@@ -20,7 +20,5 @@ CREATE TABLE membres (
 
 
 INSERT INTO `membres` (`idKanban`, `login`) VALUES
-('2', 'vallee'),
-('1', 'vallee'),
-('3', 'vallee');
+('1', 'projet');
 COMMIT;

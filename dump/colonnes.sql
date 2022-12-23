@@ -21,8 +21,10 @@ CREATE TABLE colonnes (
 
 
 INSERT INTO `colonnes` (`nameCol`, `orderCol`, `kanban`) VALUES
-('a', 0, 1),
-('b', 1, 1),
-('c', 2, 1),
-('d', 3, 1);
+('Stories', 0, 1),
+('Terminées', 1, 1),
+('Stories', 0, 2),
+('Terminées', 1, 2),
+('Stories', 0, 3),
+('Terminées', 1, 3);
 COMMIT;

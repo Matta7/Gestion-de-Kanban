@@ -30,6 +30,6 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`name`, `login`, `password`, `status`) VALUES
-('Admin', 'admin', '$2y$10$XtNp3LEzMBHbloxGUqT/weWppoWPicU/jg73R3TgmQyhjIZVbCtGK', 'admin'),
-('Vallée', 'vallee', '$2y$10$XtNp3LEzMBHbloxGUqT/weWppoWPicU/jg73R3TgmQyhjIZVbCtGK', 'user');
+('Admin', 'admin', '$2y$10$L0W5G3FI7wzzxTNpkXK8fuvIR74dKvicLC8ZPdLZzcPf6n6tdejO6', 'admin'),
+('Projet', 'projet', '$2y$10$Y5IVNqIdovki2opxQfmlGO/xzw83p4dfq/b71h.CSqaO3aFT9b/Am', 'user')
 COMMIT;
