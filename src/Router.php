@@ -20,6 +20,14 @@ class Router {
         $accessTab = $this->creationAccessTab($kanbanDTB);
 
 
+        // Affiche les informations d'une page.
+        if(key_exists('id', $_GET)) {
+            if(in_array('id', $accessTab)) {
+                $id = $_GET['id'];
+                $controller->showInformation($id);
+            }
+        }
+
         // Affiche la liste :
         if(key_exists('liste', $_GET)) {
 
@@ -164,18 +172,6 @@ class Router {
             }
 
             // Si aucune des conditions ne sont respectées, alors l'utilisateur n'a pas les permissions.
-            else {
-                $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
-            }
-        }
-
-        // Affiche les informations d'une page.
-        if(key_exists('id', $_GET)) {
-            if(in_array('id', $accessTab)) {
-                $id = $_GET['id'];
-                $controller->showInformation($id);
-            }
-
             else {
                 $this->POSTredirect('index.php', 'Vous n\'avez pas les droits');
             }
