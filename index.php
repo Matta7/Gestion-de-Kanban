@@ -4,9 +4,11 @@
  * On indique que les chemins des fichiers qu'on inclut
  * seront relatifs au répertoire src.
  */
+
 set_include_path("./src");
 
 /* Inclusion des classes utilisées dans ce fichier */
+require_once("mysql_config.php");
 require_once("Router.php");
 require_once("model/KanbanStorageMySQL.php");
 require_once("model/AccountStorageMySQL.php");
@@ -20,15 +22,11 @@ require_once("model/AccountStorageMySQL.php");
 
 /*
 Initialisation de la base de donnée :
-
+*/
 $dns = $MYSQL_DNS;
 $user = $MYSQL_USER;
 $pass = $MYSQL_PASSWORD;
-*/
 
-$dns = 'mysql:host=localhost;port=3306;dbname=projet;charset=utf8mb4';
-$user = 'projet';
-$pass = 'tejorp';
 
 $db = new PDO($dns, $user, $pass);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
