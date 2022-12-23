@@ -215,13 +215,14 @@ class Router {
     public function creationAccessTab($kanbanDTB) {
 
         if(!key_exists('user',$_SESSION)) {
-            return array('aPropos', 'connexion', 'authentification', 'inscription', 'inscrit');
+            $accessTab = array('aPropos', 'connexion', 'authentification', 'inscription', 'inscrit');
             if(key_exists('id', $_GET)) {
                 $kanban = $kanbanDTB->read($_GET['id']);
                 if($kanban->isPublic()) {
                     $accessTab = array_merge($accessTab, array('id'));
                 }
             }
+            return $accessTab;
         }
 
         else {
